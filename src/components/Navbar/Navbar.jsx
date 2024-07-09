@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsMenuButtonWideFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import AddAppoitmentModal from "../Modals/AddAppoitmentModal";
 
 const navData = [
   { title: "Home", link: "/" },
@@ -13,6 +14,7 @@ const navData = [
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [OpenModal, setOpenModal] = useState(false);
   return (
     <div className="flex justify-between items-center h-[15vh] px-8">
       <div className="">
@@ -31,13 +33,19 @@ const Navbar = () => {
         })}
       </div>
       <div className="flex items-center gap-x-4">
-        <div className="underline cursor-pointer font-montserrat font-semibold text-2xl text-white bg-[#bb86fc] hover:bg-[#a871eb] py-3 px-5 rounded-lg transition-all ease-in-out duration-500">
+        <div
+          className="underline cursor-pointer font-montserrat font-semibold text-2xl text-white bg-[#bb86fc] hover:bg-[#a871eb] py-3 px-5 rounded-lg transition-all ease-in-out duration-500"
+          onClick={() => setOpenModal(true)}
+        >
           Book Now
         </div>
         <div className="text-[#bb86fc] text-3xl hover:text-[#a871eb] cursor-pointer">
           <BsMenuButtonWideFill />
         </div>
       </div>
+      {OpenModal && (
+        <AddAppoitmentModal Open={OpenModal} setOpen={setOpenModal} />
+      )}
     </div>
   );
 };

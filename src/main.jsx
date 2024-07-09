@@ -10,6 +10,7 @@ import Doctors from "./pages/Doctors/Doctors";
 import Products from "./pages/Products/Products";
 import Blogs from "./pages/Blogs/Blogs";
 import Plans from "./pages/Plans/Plans";
+import DoctorList from "./pages/Doctors/DoctorList";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/doctors",
     element: <Doctors />,
+  },
+  {
+    path: "/doctors/:city",
+    element: <DoctorList />,
   },
   {
     path: "/products",
