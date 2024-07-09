@@ -10,8 +10,8 @@ const Doctors = () => {
   return (
     <div className="bg-[#b9cdf6] w-screen h-screen justify-center items-center">
       <Navbar />
-      <div className="flex h-[85vh] justify-center items-center gap-y-4">
-        <div className="flex flex-col justify-center items-center max-w-[660px]">
+      <div className="flex h-[85vh] justify-between items-start gap-y-4 px-10">
+        <div className="flex flex-col justify-center items-center w-[660px]">
           <div className="select-none font-montserrat font-semibold text-4xl text-white bg-[#a871eb] py-6 rounded-lg transition-all ease-in-out duration-500 px-10 w-[500px] text-center uppercase mb-6">
             Choose City
           </div>

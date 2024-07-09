@@ -35,7 +35,7 @@ const Navbar = () => {
       <div className="flex items-center gap-x-4">
         <div
           className="underline cursor-pointer font-montserrat font-semibold text-2xl text-white bg-[#bb86fc] hover:bg-[#a871eb] py-3 px-5 rounded-lg transition-all ease-in-out duration-500"
-          onClick={() => setOpenModal(true)}
+          onClick={() => navigate("/add-appointment")}
         >
           Book Now
         </div>

@@ -1,10 +1,17 @@
 import React from "react";
 import DcotorImage from "../../assets/doctor.jpg";
 import { FaStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const DoctorCard = ({ Detail }) => {
+  const navigate = useNavigate();
   return (
-    <div className="flex flex-col justify-start items-center w-[350px] relative bg-white text-[#a871eb] h-[400px] rounded-[20px] px-4 pt-[70px] gap-y-3 border-4 border-[#a871eb]">
+    <div
+      className="flex flex-col justify-start items-center w-[350px] relative bg-white text-[#a871eb] h-[400px] rounded-[20px] px-4 pt-[70px] gap-y-3 border-4 border-[#a871eb]"
+      onClick={() => {
+        navigate("/add-appointment");
+      }}
+    >
       <div className="font-bold text-2xl">{Detail.title}</div>
       <div className="text-xl font-light">PHYSIOTHERAPIST</div>
       <div className="px-5 text-2xl font-[300px] text-center">

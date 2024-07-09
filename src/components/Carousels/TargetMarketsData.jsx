@@ -14,42 +14,42 @@ import NeckMassage from "../../../public/NeckMassager.jpg";
 export const TargetMarketsData = [
   {
     img: NeckMassage,
-    title: "UI/UX Design",
+    title: "Neck Massager",
     icon: MdDesignServices,
   },
   {
     img: NeckMassage,
-    title: "UI/UX Design",
+    title: "Neck Massager",
     icon: MdDesignServices,
   },
   {
     img: NeckMassage,
-    title: "UI/UX Design",
+    title: "Neck Massager",
     icon: MdDesignServices,
   },
   {
     img: NeckMassage,
-    title: "UI/UX Design",
+    title: "Neck Massager",
     icon: MdDesignServices,
   },
   {
     img: NeckMassage,
-    title: "UI/UX Design",
+    title: "Neck Massager",
     icon: MdDesignServices,
   },
   {
     img: NeckMassage,
-    title: "UI/UX Design",
+    title: "Neck Massager",
     icon: MdDesignServices,
   },
   {
     img: NeckMassage,
-    title: "UI/UX Design",
+    title: "Neck Massager",
     icon: MdDesignServices,
   },
   {
     img: NeckMassage,
-    title: "UI/UX Design",
+    title: "Neck Massager",
     icon: MdDesignServices,
   },
 ];

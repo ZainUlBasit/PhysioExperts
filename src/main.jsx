@@ -11,6 +11,7 @@ import Products from "./pages/Products/Products";
 import Blogs from "./pages/Blogs/Blogs";
 import Plans from "./pages/Plans/Plans";
 import DoctorList from "./pages/Doctors/DoctorList";
+import AddAppointment from "./pages/Add Appointment/AddAppointment";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/doctors",
     element: <Doctors />,
+  },
+  {
+    path: "/add-appointment",
+    element: <AddAppointment />,
   },
   {
     path: "/doctors/:city",

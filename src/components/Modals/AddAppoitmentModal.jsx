@@ -11,8 +11,8 @@ import { IoSunnySharp } from "react-icons/io5";
 
 const AddAppointmentModal = ({ Open, setOpen }) => {
   const [SearchPopOver, setSearchPopOver] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null);
   const [selectedDate, setSelectedDate] = useState(dayjs("2022-04-17")); // Initialize the date state
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
