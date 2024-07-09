@@ -4,11 +4,37 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import App from "./App";
+import Services from "./pages/Services/Services";
+import Doctors from "./pages/Doctors/Doctors";
+import Products from "./pages/Products/Products";
+import Blogs from "./pages/Blogs/Blogs";
+import Plans from "./pages/Plans/Plans";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element: <App />,
+  },
+  {
+    path: "/services",
+    element: <Services />,
+  },
+  {
+    path: "/doctors",
+    element: <Doctors />,
+  },
+  {
+    path: "/products",
+    element: <Products />,
+  },
+  {
+    path: "/blogs",
+    element: <Blogs />,
+  },
+  {
+    path: "/plans",
+    element: <Plans />,
   },
 ]);
 
