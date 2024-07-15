@@ -11,10 +11,10 @@ const DoctorList = () => {
   if (!city) navigate("/doctors");
 
   return (
-    <div className="bg-[#b9cdf6] w-screen h-screen justify-center items-center">
+    <div className="bg-[aliceblue] w-screen h-screen justify-center items-center">
       <Navbar />
       <div className="flex flex-col flex-1 justify-center items-center gap-y-4">
-        <div className="font-[400] font-montserrat text-8xl pb-[130px] text-[#a871eb]">
+        <div className="font-[400] font-montserrat text-8xl pb-[130px] text-custom-bg">
           Meet our Doctors
         </div>
         <div className="flex gap-x-10">

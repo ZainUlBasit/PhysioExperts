@@ -8,15 +8,15 @@ const Doctors = () => {
   const navigate = useNavigate();
   const [SearchCityName, setSearchCityName] = useState("");
   return (
-    <div className="bg-[#b9cdf6] w-screen h-screen justify-center items-center">
+    <div className="bg-[aliceblue] w-screen h-screen justify-center items-center">
       <Navbar />
       <div className="flex h-[85vh] justify-between items-start gap-y-4 px-10">
         <div className="flex flex-col justify-center items-center w-[660px]">
-          <div className="select-none font-montserrat font-semibold text-4xl text-white bg-[#a871eb] py-6 rounded-lg transition-all ease-in-out duration-500 px-10 w-[500px] text-center uppercase mb-6">
+          <div className="select-none font-montserrat font-semibold text-4xl text-white bg-custom-bg py-6 rounded-lg transition-all ease-in-out duration-500 px-10 w-[500px] text-center uppercase mb-6">
             Choose City
           </div>
           <input
-            className="select-none font-montserrat font-semibold text-xl text-[#a871eb] border-2 border-[#a871eb] py-6 rounded-lg transition-all ease-in-out duration-500 px-10 w-[500px] uppercase mb-6 outline-none"
+            className="select-none font-montserrat font-semibold text-xl text-custom-bg border-2 border-custom-bg-hover py-6 rounded-full transition-all ease-in-out duration-500 px-10 w-[500px] uppercase mb-6 outline-none"
             placeholder="Search City..."
             value={SearchCityName}
             onChange={(e) => setSearchCityName(e.target.value)}
@@ -26,11 +26,11 @@ const Doctors = () => {
             {ArrayOfCities.filter((dt) =>
               dt.name.toLowerCase().startsWith(SearchCityName.toLowerCase())
             )
-              .slice(0, 4)
+              .slice(0, 10)
               .map((dt) => {
                 return (
                   <div
-                    className="px-6 bg-white border-[2px] border-[#bb86fc] hover:bg-[#bb86fc] hover:text-white transition-all ease-in-out duration-500 py-7 rounded-full text-center text-4xl cursor-pointer"
+                    className="px-5 bg-white border-[2px] border-custom-bg-hover hover:bg-custom-bg hover:text-white transition-all ease-in-out duration-500 py-3 rounded-full text-center text-2xl cursor-pointer"
                     onClick={() => navigate("/doctors/" + dt)}
                   >
                     {dt.name}

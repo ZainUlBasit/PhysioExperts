@@ -1,0 +1,38 @@
+/* Navbar.css */
+/* ...Other styles */
+
+.box-below-link {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-150%);
+  width: 100%;
+  /* Adjust the width of the box */
+  height: 3px; /* Adjust the height of the box */
+  background-color: #768a9e; /* Box color */
+  transition: transform 0.3s ease-in-out; /* Smooth transition for the transform property */
+}
+
+.box-below-Inactive {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  /* Adjust the width of the box */
+  height: 3px; /* Adjust the height of the box */
+  background-color: white; /* Box color */
+  transition: transform 0.3s ease-in-out; /* Smooth transition for the transform property */
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-150%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.box-below-link {
+  animation: slideIn 0.8s ease-in-out forwards; /* Use the slideIn animation */
+}

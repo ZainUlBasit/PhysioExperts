@@ -12,6 +12,7 @@ import Blogs from "./pages/Blogs/Blogs";
 import Plans from "./pages/Plans/Plans";
 import DoctorList from "./pages/Doctors/DoctorList";
 import AddAppointment from "./pages/Add Appointment/AddAppointment";
+import AdminLogin from "./pages/Admin/AdminLogin";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: "/plans",
     element: <Plans />,
+  },
+  {
+    path: "/admin",
+    element: <AdminLogin />,
   },
 ]);
 

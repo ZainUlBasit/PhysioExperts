@@ -31,17 +31,17 @@ const AddAppointment = () => {
   const [ConsultType, setConsultType] = useState("");
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className="bg-[#b9cdf6] w-screen h-screen">
+      <div className="bg-aliceblue w-screen h-screen">
         <Navbar />
         <div className="h-[85vh] w-screen flex flex-col">
           <div
-            className="w-full text-[#000] font-[400] font-montserrat text-7xl flex justify-center items-center py-7"
-            style={{ textShadow: "#bb86fc 1px 0 10px" }}
+            className="w-full text-custom-bg font-[400] font-montserrat text-7xl flex justify-center items-center py-7"
+            style={{ textShadow: "#768A9E 1px 0 10px" }}
           >
             Book Your Appointment
           </div>
           <div className="flex-1 flex justify-around pt-8">
-            <div className="flex flex-col justify-start gap-y-5 items-center border-r-[1px] border-r-[#bb86fc] w-full">
+            <div className="flex flex-col justify-start gap-y-5 items-center border-r-[1px] border-r-[#465462] w-full">
               <CustomPopOver
                 label={"Consultation Type"}
                 placeholder={"Select Consultation Type"}
@@ -73,15 +73,15 @@ const AddAppointment = () => {
                 <Typography
                   sx={{
                     p: 2,
-                    borderColor: "#bb86fc",
-                    backgroundColor: "#bb86fc",
+                    borderColor: "#465462",
+                    backgroundColor: "#465462",
                     width: "400px",
                     borderRadius: "25px",
                     overflowY: "auto", // Ensure vertical scroll if needed
                     maxHeight: "60vh", // Set height to 60vh
                   }}
                 >
-                  <div className="bg-[#bb86fc] text-white font-[Quicksand] flex flex-col justify-center items-center rounded-[50px]">
+                  <div className="bg-[#465462] text-white font-[Quicksand] flex flex-col justify-center items-center rounded-[50px]">
                     <div className="w-full flex flex-col justify-between gap-y-3 items-start">
                       {["Online Consultation", "Physical Consultation"].map(
                         (dt) => (
@@ -107,9 +107,9 @@ const AddAppointment = () => {
                   </div>
                 </Typography>
               </Popover>
-              <div className="w-fit min-w-[400px]">
+              <div className="w-fit min-w-[400px] border-2 border-[#465462] rounded-[30px] overflow-hidden">
                 <StaticDatePicker
-                  sx={{ bgcolor: "#b9cdf6" }}
+                  sx={{ bgcolor: "aliceblue" }}
                   displayStaticWrapperAs="desktop"
                   value={selectedDate}
                   onChange={handleDateChange} // Handle date changes
@@ -124,13 +124,13 @@ const AddAppointment = () => {
               <IoSunnySharp className="text-5xl text-black" />
               <div className="font-[400] text-4xl">Afternoon</div>
               <div className="flex flex-col gap-y-2 pt-3">
-                <div className="p-2 px-3 shadow-lg text-[#bb86fc] border-[#bb86fc] border-[1px] rounded-lg bg-white text-2xl font-[400]">
+                <div className="p-2 px-3 shadow-lg text-[#465462] border-[#465462] border-[1px] rounded-lg bg-white text-2xl font-[400]">
                   3:30 PM
                 </div>
-                <div className="p-2 px-3 shadow-lg text-[#bb86fc] border-[#bb86fc] border-[1px] rounded-lg bg-white text-2xl font-[400]">
+                <div className="p-2 px-3 shadow-lg text-[#465462] border-[#465462] border-[1px] rounded-lg bg-white text-2xl font-[400]">
                   4:00 PM
                 </div>
-                <div className="p-2 px-3 shadow-lg text-[#bb86fc] border-[#bb86fc] border-[1px] rounded-lg bg-white text-2xl font-[400]">
+                <div className="p-2 px-3 shadow-lg text-[#465462] border-[#465462] border-[1px] rounded-lg bg-white text-2xl font-[400]">
                   4:30 PM
                 </div>
               </div>

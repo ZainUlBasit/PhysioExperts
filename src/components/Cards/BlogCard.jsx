@@ -2,12 +2,9 @@ import React from "react";
 
 const BlogCard = () => {
   return (
-    <div
-      className="h-[250px] w-[500px] flex gap-x-6 border-[3px] border-[#bb86fc] bg-white px-4 py-4 rounded-lg shadow-[5px_5px_rgba(187,_134,_252,_0.4),_10px_10px_rgba(187,_134,_252,_0.3),_15px_15px_rgba(187,_134,_252,_0.2),_20px_20px_rgba(187,_134,_252,_0.1),_25px_25px_rgba(187,_134,_252,_0.05)]
-    "
-    >
+    <div className="h-[350px] w-[300px] flex flex-col items-center justify-between gap-x-6 border-[3px] border-custom-bg overflow-hidden bg-aliceblue rounded-[30px] my-4 text-custom-bg">
       {/* Image section */}
-      <div className="w-[200px] h-full overflow-hidden rounded-[20px] shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+      <div className="w-full h-[180px] overflow-auto">
         <img
           src="/blogImage.jpg"
           className="w-full h-full object-cover"
@@ -15,11 +12,13 @@ const BlogCard = () => {
         />
       </div>
       {/* Detail Section */}
-      <div className="w-[250px]">
-        <div className="font-montserrat font-semibold text-[1.5rem] text-[#bb86fc]">
+      <div className="w-[250px] flex flex-col justify-between flex-1 py-3">
+        <div className="font-montserrat font-semibold text-[1.2rem] text-center">
           How to eat well for a better life
         </div>
-        <div className="text-gray-700">Blog — Jan 03, 2030</div>
+        <div className="w-full flex justify-end">
+          <div className="text-gray-700 text-sm">Blog — Jan 03, 2030</div>
+        </div>
       </div>
     </div>
   );

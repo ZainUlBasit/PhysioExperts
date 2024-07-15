@@ -8,8 +8,8 @@ const CarouselCard = ({ Icon, title, img, desc, i }) => {
     // "linear-gradient(90deg, rgba(255,95,109,1) 0%, rgba(255,195,113,1) 100%)",
     // WebkitBackgroundClip: "text",
     // WebkitTextFillColor: "transparent",
-    color: "#fff",
-    textShadow: "#bb86fc 1px 0 10px",
+    color: "aliceblue",
+    textShadow: "#465462 1px 0 10px",
   };
 
   const cardStyle = {
@@ -21,7 +21,7 @@ const CarouselCard = ({ Icon, title, img, desc, i }) => {
     // "linear-gradient(90deg, rgba(255,95,109,1) 0%, rgba(255,195,113,1) 100%) 1",
     borderWidth: "3px",
     borderStyle: "solid",
-    borderColor: "#bb86fc",
+    borderColor: "#768A9E",
   };
 
   return (

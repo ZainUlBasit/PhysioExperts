@@ -56,8 +56,8 @@ export const CarouselWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100% !important;
-  height: 500px !important;
-  background-color: #b9cdf6;
+  /* height: auto !important; */
+  background-color: aliceblue;
   color: white !important;
 
   @media (max-width: 1300px) {

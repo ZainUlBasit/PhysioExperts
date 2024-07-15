@@ -22,19 +22,19 @@ const BlogCarousel = () => {
     };
   }, []);
   return (
-    <CarouselWrapper className="gap-y-10 flex flex-col justify-between items-center w-full h-full">
+    <CarouselWrapper className="gap-y-10 flex flex-col justify-between items-center w-full h-[600px]">
       <h1
-        className="text-[4rem] font-[600] font-montserrat text-[#fff] mb-10"
-        style={{ textShadow: "#bb86fc 1px 0 10px" }}
+        className="text-[4rem] font-[600] font-montserrat text-custom-bg mb-10"
+        style={{ textShadow: "#768A9E 1px 0 10px" }}
       >
         Blogs
       </h1>
       <div className="w-[80%]">
         <Slider
-          dots={false}
+          dots={true}
           infinite={true}
           speed={500}
-          slidesToShow={2}
+          slidesToShow={3}
           slidesToScroll={1}
           autoplay={true}
           draggable={true}

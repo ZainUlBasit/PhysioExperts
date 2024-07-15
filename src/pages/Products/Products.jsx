@@ -5,7 +5,7 @@ import ServiceCarousel from "../../components/Carousels/ServiceCarousel";
 
 const Products = () => {
   return (
-    <div className="bg-[#b9cdf6] w-screen h-screen justify-center items-start">
+    <div className="bg-[aliceblue] w-screen h-screen justify-center items-start">
       <Navbar />
       <div className="flex flex-col h-[85vh] justify-start items-center gap-y-4">
         <ServiceCarousel />

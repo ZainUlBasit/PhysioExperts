@@ -7,7 +7,7 @@ const DoctorCard = ({ Detail }) => {
   const navigate = useNavigate();
   return (
     <div
-      className="flex flex-col justify-start items-center w-[350px] relative bg-white text-[#a871eb] h-[400px] rounded-[20px] px-4 pt-[70px] gap-y-3 border-4 border-[#a871eb]"
+      className="flex flex-col justify-start items-center w-[350px] relative bg-[white] text-custom-bg h-[400px] rounded-[20px] px-4 pt-[70px] gap-y-3 border-4 border-custom-bg-hover"
       onClick={() => {
         navigate("/add-appointment");
       }}
@@ -25,7 +25,7 @@ const DoctorCard = ({ Detail }) => {
         <FaStar className="text-3xl text-yellow-400" />
         <FaStar className="text-3xl text-yellow-400" />
       </div>
-      <div className="absolute -top-[35%] left-1/2 transform -translate-x-1/2 h-[200px] w-[200px] rounded-full bg-[#a871eb] overflow-hidden p-5">
+      <div className="absolute -top-[35%] left-1/2 transform -translate-x-1/2 h-[200px] w-[200px] rounded-full bg-custom-bg-hover overflow-hidden p-5">
         <img
           src={DcotorImage}
           className="overflow-hidden w-full h-full object-cover rounded-full"

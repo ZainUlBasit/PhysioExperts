@@ -3,17 +3,17 @@ import Navbar from "../../components/Navbar/Navbar";
 
 const Plans = () => {
   return (
-    <div className="bg-[#b9cdf6] w-screen h-screen justify-center items-center">
+    <div className="bg-aliceblue w-screen h-screen justify-center items-center">
       <Navbar />
       <div className="flex flex-col h-[85vh] justify-center items-center gap-x-4">
         <div
-          className="text-[4rem] font-[600] font-montserrat text-[#000] mb-10"
-          style={{ textShadow: "#bb86fc 1px 0 10px" }}
+          className="text-[4rem] font-[600] font-montserrat text-custom-bg mb-10"
+          style={{ textShadow: "#768A9E 1px 0 10px" }}
         >
           Choose Your Plan
         </div>
         <div className="flex gap-x-4">
-          <div className="w-[400px] h-[450px] flex flex-col gap-y-6 justify-center items-center font-montserrat px-3 py-4 border-4 border-[#82976e]">
+          <div className="w-[400px] h-[450px] flex flex-col gap-y-6 justify-center items-center font-montserrat px-3 py-4 border-4 border-[#82976e] text-custom-bg">
             <div className="font-bold text-4xl">PERSONAL</div>
             <div className="font-bold text-2xl">FREE</div>
             <div className=" text-center text-xl px-4">
@@ -25,7 +25,7 @@ const Plans = () => {
               Learn More
             </div>
           </div>
-          <div className="w-[400px] h-[450px] flex flex-col gap-y-6 justify-center items-center font-montserrat px-3 py-4 border-4 border-[#00c7fc] bg-[#00c7fc]">
+          <div className="w-[400px] h-[450px] flex flex-col gap-y-6 justify-center items-center font-montserrat px-3 py-4 border-4 border-[#00c7fc] bg-[#00c7fc] text-custom-bg">
             <div className="font-bold text-4xl">PERSONAL</div>
             <div className="font-bold text-2xl">FREE</div>
             <div className=" text-center text-xl px-4">
@@ -37,7 +37,7 @@ const Plans = () => {
               Learn More
             </div>
           </div>
-          <div className="w-[400px] h-[450px] flex flex-col gap-y-6 justify-center items-center font-montserrat px-3 py-4 border-4 border-[#00c19a]">
+          <div className="w-[400px] h-[450px] flex flex-col gap-y-6 justify-center items-center font-montserrat px-3 py-4 border-4 border-[#00c19a] text-custom-bg">
             <div className="font-bold text-4xl">PERSONAL</div>
             <div className="font-bold text-2xl">FREE</div>
             <div className=" text-center text-xl px-4">

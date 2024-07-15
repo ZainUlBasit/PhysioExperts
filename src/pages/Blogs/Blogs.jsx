@@ -5,7 +5,7 @@ import BlogCarousel from "../../components/Carousels/BlogCarousel";
 
 const Blogs = () => {
   return (
-    <div className="bg-[#b9cdf6] w-screen h-screen justify-center items-center">
+    <div className="bg-aliceblue w-screen h-screen justify-center items-center">
       <Navbar />
       <div className="flex flex-col h-[85vh] justify-center items-center gap-y-4 overflow-hidden">
         <BlogCarousel />
