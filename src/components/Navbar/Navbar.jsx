@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BsMenuButtonWideFill } from "react-icons/bs";
+import { BsFillMenuButtonFill, BsMenuButtonWideFill } from "react-icons/bs";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AddAppoitmentModal from "../Modals/AddAppoitmentModal";
 import { Popover, Typography } from "@mui/material";
@@ -46,10 +46,13 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-between items-center h-[15vh] px-8">
-      <div className="">
+      <div className="flex items-center gap-x-2">
+        <section className="hidden">
+          <BsFillMenuButtonFill className="text-[#465462] text-3xl hover:text-[#768A9E] cursor-pointer transition-all ease-in-out duration-500" />
+        </section>
         <img src="/logo.png" alt="logo" className="w-[100px]" />
       </div>
-      <div className="flex gap-x-4">
+      <nav className="flex gap-x-4">
         {navData.map((nav) => {
           return (
             <div className="relative overflow-hidden">
@@ -70,12 +73,12 @@ const Navbar = () => {
             </div>
           );
         })}
-      </div>
+      </nav>
       <div className="flex items-center gap-x-4">
         <div
           className="cursor-pointer font-montserrat font-semibold text-2xl bg-[#465462] hover:bg-[#768A9E] py-3 px-5 rounded-full transition-all ease-in-out duration-500"
           style={{ color: "white" }}
-          onClick={() => navigate("/add-appointment")}
+          onClick={() => navigate("/appointment/select-city")}
         >
           Book Now
         </div>

@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import ServiceCards from "../../components/Cards/ServiceCards";
 import ServicesCarousel from "../../components/Carousels/ServicesCarousel";
+import { motion } from "framer-motion";
 
 const Services = () => {
   return (

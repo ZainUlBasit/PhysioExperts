@@ -1,17 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import CustomPopOver from "../../components/Inputs/CustomPopOver";
 import { Popover, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { StaticDatePicker } from "@mui/x-date-pickers";
-import moment from "moment";
 import { IoSunnySharp } from "react-icons/io5";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Navbar from "../../components/Navbar/Navbar";
 import { BsSearch } from "react-icons/bs";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDoctors } from "../../store/Slices/DoctorSlice";
+import CustomInput from "../../components/Inputs/CustomInput";
+import { ErrorToast } from "../../utils/ShowToast";
+import { AddNewAppoitmentApi } from "../../Api_Requests/Api_Requests";
 
 const AddAppointment = () => {
-  const [selectedDate, setSelectedDate] = useState(dayjs("2022-04-17")); // Initialize the date state
+  const { id: DoctorId } = useParams();
+  const [selectedDate, setSelectedDate] = useState(dayjs("2022-04-17"));
+
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [mobile_no, setMobile_no] = useState("");
+  const navigate = useNavigate();
+  const [gender, setGender] = useState("");
+  const [age, setAge] = useState("");
+
+  const [selectedFile, setSelectedFile] = useState("");
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
+  };
+
+  const { DoctorState, AuthState } = useSelector((state) => ({
+    DoctorState: state.DoctorState,
+    AuthState: state.AuthState,
+  }));
+  const dispatch = useDispatch();
+  const [CurrentSlots, setCurrentSlots] = useState([]);
+
+  useEffect(() => {
+    dispatch(fetchDoctors());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const tempUser = DoctorState.data.find(
+      (dt) => dt._id === DoctorId
+    )?.clinic_timing;
+    if (tempUser) setCurrentSlots(tempUser);
+  }, [DoctorState.data, DoctorId]);
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -23,25 +63,31 @@ const AddAppointment = () => {
   };
 
   const handleDateChange = (newValue) => {
-    setSelectedDate(newValue); // Update the date state
+    setSelectedDate(newValue);
   };
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
   const [ConsultType, setConsultType] = useState("");
+
+  const selectedDaySlots = useMemo(() => {
+    const selectedDay = dayjs(selectedDate).format("dddd");
+    return CurrentSlots.find((slot) => slot.day === selectedDay);
+  }, [selectedDate, CurrentSlots]);
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className="bg-aliceblue w-screen h-screen">
+      <div className="bg-aliceblue w-screen min-h-screen">
         <Navbar />
-        <div className="h-[85vh] w-screen flex flex-col">
+        <div className="h-full w-screen flex flex-col">
           <div
             className="w-full text-custom-bg font-[400] font-montserrat text-7xl flex justify-center items-center py-7"
             style={{ textShadow: "#768A9E 1px 0 10px" }}
           >
             Book Your Appointment
           </div>
-          <div className="flex-1 flex justify-around pt-8">
-            <div className="flex flex-col justify-start gap-y-5 items-center border-r-[1px] border-r-[#465462] w-full">
+          <div className="flex-1 flex justify-around flex-wrap pt-8 gap-y-10">
+            <div className="flex flex-col justify-start gap-y-5 items-center w-[50%]">
               <CustomPopOver
                 label={"Consultation Type"}
                 placeholder={"Select Consultation Type"}
@@ -49,6 +95,7 @@ const AddAppointment = () => {
                 Value={ConsultType}
                 onClick={handleClick}
               />
+
               <Popover
                 id={id}
                 open={open}
@@ -64,9 +111,9 @@ const AddAppointment = () => {
                 }}
                 PaperProps={{
                   sx: {
-                    borderRadius: "25px", // Add rounded corners
-                    backgroundColor: "white", // Set background color to white
-                    overflowY: "auto", // Add vertical scroll
+                    borderRadius: "25px",
+                    backgroundColor: "white",
+                    overflowY: "auto",
                   },
                 }}
               >
@@ -77,8 +124,8 @@ const AddAppointment = () => {
                     backgroundColor: "#465462",
                     width: "400px",
                     borderRadius: "25px",
-                    overflowY: "auto", // Ensure vertical scroll if needed
-                    maxHeight: "60vh", // Set height to 60vh
+                    overflowY: "auto",
+                    maxHeight: "60vh",
                   }}
                 >
                   <div className="bg-[#465462] text-white font-[Quicksand] flex flex-col justify-center items-center rounded-[50px]">
@@ -112,27 +159,151 @@ const AddAppointment = () => {
                   sx={{ bgcolor: "aliceblue" }}
                   displayStaticWrapperAs="desktop"
                   value={selectedDate}
-                  onChange={handleDateChange} // Handle date changes
+                  onChange={handleDateChange}
                 />
               </div>
+              {selectedDaySlots?.available ? (
+                <div className="flex flex-col items-center justify-center">
+                  <div className="text-[green] font-bold font-montserrat text-xl">
+                    Available Time
+                  </div>
+                  <div className="font-montserrat font-semibold text-xl text-custom-bg">
+                    {dayjs(selectedDaySlots?.from, "HH:mm").format("h:mm A")} -{" "}
+                    {dayjs(selectedDaySlots?.to, "HH:mm").format("h:mm A")}
+                  </div>
+                  <input
+                    type="time"
+                    // value={day.to}
+                    // onChange={handleTimeChange(index, "to")}
+                    className="border p-1 rounded-lg w-[140px] font-montserrat font-bold"
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center">
+                  <div className="text-[red] font-bold font-montserrat text-xl">
+                    Not Available
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="flex flex-col justify-start items-center w-full gap-y-4">
-              <div className="text-4xl pb-4">
-                Select a time on{" "}
-                {moment(new Date(selectedDate)).format("DD MMMM YYYY")}
+            <div className="flex flex-col flex-wrap gap-x-4 gap-y-4 justify-start items-center w-[50%] min-w-[500px]">
+              <div className="font-montserrat font-bold text-2xl py-3 text-custom-bg">
+                Patient Details
               </div>
-              <IoSunnySharp className="text-5xl text-black" />
-              <div className="font-[400] text-4xl">Afternoon</div>
-              <div className="flex flex-col gap-y-2 pt-3">
-                <div className="p-2 px-3 shadow-lg text-[#465462] border-[#465462] border-[1px] rounded-lg bg-white text-2xl font-[400]">
-                  3:30 PM
+              <div className="flex flex-col items-center">
+                <CustomInput
+                  Value={name}
+                  setValue={setName}
+                  Type={"text"}
+                  label={"Name"}
+                  required={true}
+                  placeholder={"Enter Name"}
+                />
+                <CustomInput
+                  Value={email}
+                  setValue={setEmail}
+                  Type={"email"}
+                  label={"Email"}
+                  required={true}
+                  placeholder={"Enter Email"}
+                />
+                <CustomInput
+                  Value={mobile_no}
+                  setValue={setMobile_no}
+                  Type={"text"}
+                  label={"Mobile No"}
+                  required={true}
+                  placeholder={"Enter Mobile No"}
+                />
+                <CustomInput
+                  Value={age}
+                  setValue={setAge}
+                  Type={"number"}
+                  label={"Age"}
+                  required={true}
+                  placeholder={"Enter Age"}
+                />
+
+                <CustomInput
+                  Value={address}
+                  setValue={setAddress}
+                  Type={"text"}
+                  label={"Address"}
+                  required={true}
+                  placeholder={"Enter Address"}
+                />
+                <div className="flex gap-x-2 items-center justify-center font-montserrat">
+                  <label className="font-montserrat font-medium text-lg">
+                    Gender:
+                  </label>
+                  <div className="flex gap-x-4">
+                    <label className="flex items-center cursor-pointer">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="male"
+                        checked={gender === "male"}
+                        onChange={() => setGender("male")}
+                        className="mr-2"
+                      />
+                      Male
+                    </label>
+                    <label className="flex items-center cursor-pointer">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="female"
+                        checked={gender === "female"}
+                        onChange={() => setGender("female")}
+                        className="mr-2"
+                      />
+                      Female
+                    </label>
+                  </div>
                 </div>
-                <div className="p-2 px-3 shadow-lg text-[#465462] border-[#465462] border-[1px] rounded-lg bg-white text-2xl font-[400]">
-                  4:00 PM
-                </div>
-                <div className="p-2 px-3 shadow-lg text-[#465462] border-[#465462] border-[1px] rounded-lg bg-white text-2xl font-[400]">
-                  4:30 PM
-                </div>
+                {selectedDaySlots?.available && (
+                  <div
+                    className="w-[250px] py-3 bg-custom-bg hover:bg-custom-bg-hover text-aliceblue transition-all ease-in-out duration-500 text-xl font-bold font-montserrat text-center rounded-[10px] cursor-pointer my-5"
+                    onClick={async () => {
+                      if (
+                        !name ||
+                        !address ||
+                        !mobile_no ||
+                        !age ||
+                        !email ||
+                        !gender
+                      ) {
+                        ErrorToast("Required fields are undefined!");
+                      } else {
+                        try {
+                          const response = await AddNewAppoitmentApi({
+                            name,
+                            address,
+                            mobile_no,
+                            age,
+                            email,
+                            gender,
+                            consult_type:
+                              ConsultType === "Online Consultation"
+                                ? 1
+                                : "Physical Consultation"
+                                ? 2
+                                : 0,
+                            date: selectedDate,
+                            doctorId: DoctorId,
+                            imageUrl:
+                              "https://cdn-icons-png.freepik.com/512/1533/1533506.png",
+                          });
+                          console.log(response);
+                        } catch (err) {
+                          console.log(err);
+                        }
+                      }
+                    }}
+                  >
+                    Add Appointment
+                  </div>
+                )}
               </div>
             </div>
           </div>

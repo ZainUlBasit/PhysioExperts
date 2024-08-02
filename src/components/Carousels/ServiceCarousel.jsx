@@ -8,6 +8,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
 import { CarouselWrapper } from "./CarouselWrapper";
+import { fetchProducts } from "../../store/Slices/ProductSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const ServiceCarousel = () => {
   // Define custom arrow components with react-icons
@@ -16,6 +18,13 @@ const ServiceCarousel = () => {
       <FiChevronLeft size={30} color="black" className="!-m-5 !-mx-2" />
     </div>
   );
+
+  const dispatch = useDispatch();
+  const ProductState = useSelector((state) => state.ProductState);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
 
   const NextArrow = (props) => (
     <div {...props} className="slick-next">
@@ -76,14 +85,16 @@ const ServiceCarousel = () => {
             },
           ]}
         >
-          {TargetMarketsData.map((dt, i) => (
-            <CarouselCard
-              key={i}
-              Icon={dt.icon}
-              title={dt.title}
-              img={dt.img}
-            />
-          ))}
+          {ProductState.data &&
+            ProductState.data.map((dt, i) => (
+              <CarouselCard
+                i={dt._id}
+                key={dt._id}
+                // Icon={dt.icon}
+                title={dt.name}
+                img={dt.imageUrl}
+              />
+            ))}
         </Slider>
       </div>
     </CarouselWrapper>

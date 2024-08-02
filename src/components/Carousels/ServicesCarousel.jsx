@@ -11,6 +11,7 @@ import { CarouselWrapper } from "./CarouselWrapper";
 import BlogCard from "../Cards/BlogCard";
 import ServiceCard from "../Cards/ServiceCard";
 import { dateTimePickerTabsClasses } from "@mui/x-date-pickers";
+import { motion } from "framer-motion";
 
 const ServicesCarousel = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -23,6 +24,22 @@ const ServicesCarousel = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const container = {
+    hidden: { opacity: 0, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delay: 0.5,
+        duration: 0.8,
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+        ease: "easeInOut",
+      },
+    },
+  };
+
   return (
     <CarouselWrapper className="gap-y-10 flex flex-col justify-between items-center w-full h-[630px]">
       <h1
@@ -31,7 +48,13 @@ const ServicesCarousel = () => {
       >
         We provide different type of physiotherapy services
       </h1>
-      <div className="w-[80%]">
+
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="visible"
+        className="w-[80%]"
+      >
         <Slider
           dots={true}
           infinite={true}
@@ -80,7 +103,7 @@ const ServicesCarousel = () => {
             <ServiceCard dt={dt} />
           ))}
         </Slider>
-      </div>
+      </motion.div>
     </CarouselWrapper>
   );
 };

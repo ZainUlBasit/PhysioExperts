@@ -31,7 +31,7 @@ const Doctors = () => {
                 return (
                   <div
                     className="px-5 bg-white border-[2px] border-custom-bg-hover hover:bg-custom-bg hover:text-white transition-all ease-in-out duration-500 py-3 rounded-full text-center text-2xl cursor-pointer"
-                    onClick={() => navigate("/doctors/" + dt)}
+                    onClick={() => navigate("/doctors/" + dt.name)}
                   >
                     {dt.name}
                   </div>

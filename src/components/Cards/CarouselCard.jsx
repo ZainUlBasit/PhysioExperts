@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CarouselCard = ({ Icon, title, img, desc, i }) => {
   const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
 
   const gradientStyle = {
     // background:
@@ -30,6 +32,9 @@ const CarouselCard = ({ Icon, title, img, desc, i }) => {
       style={cardStyle}
       onMouseEnter={() => setIsActive(true)}
       onMouseLeave={() => setIsActive(false)}
+      onClick={() => {
+        navigate("/products/cart/" + i);
+      }}
     >
       <div
         className={`overlay absolute top-0 left-0 w-full h-full ${
@@ -48,7 +53,7 @@ const CarouselCard = ({ Icon, title, img, desc, i }) => {
           isActive ? "py-10" : "py-4"
         }`}
       >
-        <Icon className={`text-3xl drop-shadow-lg`} style={gradientStyle} />
+        {/* <Icon className={`text-3xl drop-shadow-lg`} style={gradientStyle} /> */}
         <span
           className={`text-2xl font-bold font-[Ubuntu] text-center`}
           style={gradientStyle}
