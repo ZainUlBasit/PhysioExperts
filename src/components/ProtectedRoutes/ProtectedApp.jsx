@@ -161,6 +161,10 @@ function ProtectedApp() {
     { path: "/patient/new-appointment", element: <PatientNewAppoinment /> },
     { path: "/patient/history", element: <PatientHistory /> },
     { path: "/patient/chat", element: <PatientChat /> },
+    {
+      path: "/appointment/prescription/preview/:id", //id: Appointment Id
+      element: <PrescriptionPreview />,
+    },
     { path: "/*", element: <Navigate to="/patient/dashboard" /> },
   ]);
 

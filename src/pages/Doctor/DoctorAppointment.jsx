@@ -55,11 +55,11 @@ const DoctorAppointment = () => {
             placeholder={"Search Patient name"}
           />
           <TableComp
-            setSelectedId={setSelectedId}
             setOpenEditModal={setOpenEditModal}
             setOpenDeleteModal={setOpenDeleteModal}
             rows={AppointmentState.data || [{}]}
             columns={AppointmentColumns}
+            setSelectedId={setSelectedId}
             setView={setOpenView}
           />
         </TableWrapper>

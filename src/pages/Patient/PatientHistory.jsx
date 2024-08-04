@@ -9,6 +9,7 @@ import TableComp, {
 import TableHeader from "../../components/Header/TableHeader";
 import PageLoader from "../../components/Loaders/PageLoader";
 import PatientNavbar from "../../components/Navbar/PatientNavbar";
+import { useNavigate } from "react-router-dom";
 
 const PatientHistory = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const PatientHistory = () => {
   const [SelectedId, setSelectedId] = useState("");
   const [OpenEditModal, setOpenEditModal] = useState(false);
   const [OpenDeleteModal, setOpenDeleteModal] = useState(false);
+  const [OpenView, setOpenView] = useState(false);
   const [SearchText, setSearchText] = useState("");
   useEffect(() => {
     const payload =
@@ -32,6 +34,14 @@ const PatientHistory = () => {
           };
     dispatch(fetchAppointment(payload));
   }, []);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (OpenView) {
+      navigate("/appointment/prescription/preview/" + SelectedId);
+    }
+  }, [OpenView]);
   return (
     <div>
       <PatientNavbar />
@@ -53,6 +63,7 @@ const PatientHistory = () => {
             setOpenDeleteModal={setOpenDeleteModal}
             rows={AppointmentState.data || [{}]}
             columns={AppointmentColumns}
+            setView={setOpenView}
           />
         </TableWrapper>
       )}
