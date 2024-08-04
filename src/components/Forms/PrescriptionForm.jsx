@@ -4,7 +4,7 @@ import CustomInput from "../Inputs/CustomInput";
 import DoctorNavbar from "../Navbar/DoctorNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAppointment } from "../../store/Slices/AppointmentSlice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CustomPopOver from "../Inputs/CustomPopOver";
 import { Popover, Typography } from "@mui/material";
 import { fetchVideos } from "../../store/Slices/VideoSlice";
@@ -29,6 +29,7 @@ const PrescriptionForm = () => {
   const exercisesRef = useRef([]);
   const [date, setDate] = useState(Math.floor(Date.now() / 1000));
   const [CurrentState, setCurrentState] = useState([]);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const AppointmentState = useSelector((state) => state.AppointmentState);
@@ -82,7 +83,10 @@ const PrescriptionForm = () => {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
+  const [Loading, setLoading] = useState(false);
+
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const formData = {
       history_complaints: historyComplaints,
@@ -107,6 +111,7 @@ const PrescriptionForm = () => {
       console.error("Error creating prescription:", err);
       ErrorToast(err.response?.data?.error?.msg || err?.message);
     }
+    setLoading(false);
   };
 
   const ExerciseState = useSelector((state) => state.VideoState);
@@ -149,9 +154,9 @@ const PrescriptionForm = () => {
       <DoctorNavbar />
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col justify-center items-center"
+        className="flex flex-col justify-center items-center w-full"
       >
-        <div className="my-8 font-montserrat font-bold text-xl text-custom-bg">
+        <div className="my-8 font-montserrat font-bold text-xl bg-custom-bg text-white py-6 rounded-lg w-[90%] text-center">
           Prescription
         </div>
         <div className="flex flex-wrap gap-x-4 gap-y-2">
@@ -278,12 +283,24 @@ const PrescriptionForm = () => {
             </div>
           </Typography>
         </Popover>
-        <button
-          type="submit"
-          className="bg-custom-bg text-white px-6 py-3 my-7 font-montserrat rounded-full hover:bg-custom-bg-hover hover:text-aliceblue border-2 border-custom-bg hover:border-custom-bg-hover font-bold"
-        >
-          Update Prescription
-        </button>
+        {
+          <div className="flex flex-wrap gap-x-2 gap-y-2">
+            <button
+              type="submit"
+              className="bg-custom-bg text-white px-6 py-3 my-7 font-montserrat rounded-full hover:bg-custom-bg-hover hover:text-aliceblue border-2 border-custom-bg hover:border-custom-bg-hover font-bold"
+            >
+              Update Prescription
+            </button>
+            <div
+              className="bg-custom-bg text-white px-6 py-3 my-7 font-montserrat rounded-full hover:bg-custom-bg-hover hover:text-aliceblue border-2 border-custom-bg hover:border-custom-bg-hover font-bold cursor-pointer"
+              onClick={() => {
+                navigate("/appointment/prescription/preview/" + AppointmentId);
+              }}
+            >
+              Preview Prescription
+            </div>
+          </div>
+        }
         <div className="w-full flex flex-col items-center">
           {SelectedExerciseState.exercises.length !== 0 && (
             <div className="w-[90%] bg-custom-bg text-center py-5 text-white rounded-full font-montserrat text-2xl font-bold">

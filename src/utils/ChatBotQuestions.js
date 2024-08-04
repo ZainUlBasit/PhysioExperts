@@ -56,7 +56,7 @@ export const ChatBotQuestions = [
   },
   {
     id: 8,
-    question: "What activities or movements trigger the pain?",
+    question: `What activities or movements trigger the pain?`,
     type: "single-choice",
     options: [
       "Lifting heavy objects",
@@ -72,6 +72,6 @@ export const ChatBotQuestions = [
     question:
       "I am giving you some exercises kindly follow it or take appointment from specialist.",
     type: "text",
-    options: [],
+    options: [""],
   },
 ];

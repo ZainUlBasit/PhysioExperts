@@ -5,11 +5,9 @@ const ChatBotSlice = createSlice({
   name: "ChatBot",
   initialState: {
     loading: false,
-    data: [
-      { type: 1, msg: "Hey! I’m your AI therapist How can i help you?" },
-      { type: 1, msg: "Do You need appointment or guidance" },
-    ],
+    data: [],
     isError: false,
+    currentQuestionIndex: 0,
   },
   reducers: {
     SendMessage: (state, action) => {
@@ -17,8 +15,22 @@ const ChatBotSlice = createSlice({
         state.data = [{ type: 2, msg: action.payload }, ...state.data];
     },
     RecieveMessage: (state, action) => {
-      console.log(action.payload);
-      console.log(ChatBotQuestions);
+      const currentQuestion = ChatBotQuestions[state.currentQuestionIndex];
+      if (currentQuestion) {
+        state.data = [
+          { type: 1, msg: currentQuestion.question },
+          ...state.data,
+        ];
+        state.currentQuestionIndex++;
+      } else {
+        state.data = [
+          {
+            type: 1,
+            msg: "Thank you for your responses. Please consult a specialist if necessary.",
+          },
+          ...state.data,
+        ];
+      }
     },
   },
 });

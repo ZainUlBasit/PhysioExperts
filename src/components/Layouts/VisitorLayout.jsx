@@ -1,11 +1,13 @@
 import { Popover, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router";
 import { RecieveMessage, SendMessage } from "../../store/Slices/ChatBotSlice";
+import { useNavigate } from "react-router-dom";
 
 const VisitorLayout = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -26,9 +28,17 @@ const VisitorLayout = () => {
     if (e.key === "Enter") {
       e.preventDefault();
       dispatch(SendMessage(Msg));
+      dispatch(RecieveMessage(Msg));
       setMsg("");
     }
   };
+  let mounted = false;
+  useEffect(() => {
+    if (!mounted) {
+      dispatch(RecieveMessage());
+      mounted = true;
+    }
+  }, []);
 
   return (
     <div className="relative">
@@ -106,7 +116,22 @@ const VisitorLayout = () => {
                             "bg-custom-bg rounded-t-md rounded-bl-md"
                       }`}
                     >
-                      {msg}
+                      {msg ===
+                      "I am giving you some exercises kindly follow it or take appointment from specialist." ? (
+                        <div className="">
+                          <div className="">{msg}</div>
+                          <div
+                            className=""
+                            onClick={() => {
+                              navigate("/appointment/select-city");
+                            }}
+                          >
+                            Book Now
+                          </div>
+                        </div>
+                      ) : (
+                        msg
+                      )}
                     </div>
                   </div>
                 );

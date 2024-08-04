@@ -47,6 +47,7 @@ import DoctorChat from "../../pages/Doctor/DoctorChat";
 import AdminLayout from "../Layouts/AdminLayout";
 import VisitorLayout from "../Layouts/VisitorLayout";
 import PrescriptionForm from "../Forms/PrescriptionForm";
+import PrescriptionPreview from "../Invoices/PrescriptionPreview";
 
 function ProtectedApp() {
   const dispatch = useDispatch();
@@ -143,6 +144,10 @@ function ProtectedApp() {
     {
       path: "/appointment/prescription/:id", //id: Doctor Id
       element: <PrescriptionForm />,
+    },
+    {
+      path: "/appointment/prescription/preview/:id", //id: Doctor Id
+      element: <PrescriptionPreview />,
     },
     { path: "/doctor/profile", element: <DoctorProfile /> },
     { path: "/doctor/chat", element: <DoctorChat /> },
