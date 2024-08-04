@@ -105,7 +105,6 @@ const PrescriptionForm = () => {
       }
     } catch (error) {
       console.error("Error creating prescription:", error);
-      s;
       ErrorToast(err.response?.data?.error?.msg || err?.message);
     }
   };
