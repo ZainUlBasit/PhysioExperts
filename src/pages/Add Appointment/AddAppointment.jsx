@@ -12,12 +12,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDoctors } from "../../store/Slices/DoctorSlice";
 import CustomInput from "../../components/Inputs/CustomInput";
-import { ErrorToast } from "../../utils/ShowToast";
+import { ErrorToast, SuccessToast } from "../../utils/ShowToast";
 import { AddNewAppoitmentApi } from "../../Api_Requests/Api_Requests";
+import { generateTimeSlots } from "../../utils/GenerateTimeSlots";
+import { FaCaretSquareDown } from "react-icons/fa";
+import { fetchSlots } from "../../store/Slices/SlotsSlice";
+import moment from "moment";
+import AddingLightLoader from "../../components/Loaders/AddingLightLoader";
 
 const AddAppointment = () => {
   const { id: DoctorId } = useParams();
-  const [selectedDate, setSelectedDate] = useState(dayjs("2022-04-17"));
+  const currentDate = moment(new Date()).format("yyyy-MM-DD");
+
+  const [selectedDate, setSelectedDate] = useState(dayjs(currentDate));
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -34,9 +41,10 @@ const AddAppointment = () => {
     setSelectedFile(file);
   };
 
-  const { DoctorState, AuthState } = useSelector((state) => ({
+  const { DoctorState, AuthState, SlotsState } = useSelector((state) => ({
     DoctorState: state.DoctorState,
     AuthState: state.AuthState,
+    SlotsState: state.SlotsState,
   }));
   const dispatch = useDispatch();
   const [CurrentSlots, setCurrentSlots] = useState([]);
@@ -70,10 +78,53 @@ const AddAppointment = () => {
   const id = open ? "simple-popover" : undefined;
   const [ConsultType, setConsultType] = useState("");
 
+  useEffect(() => {
+    const tempUser = DoctorState.data.find(
+      (dt) => dt._id === DoctorId
+    )?.clinic_timing;
+    if (tempUser) setCurrentSlots(tempUser);
+  }, [DoctorState.data, DoctorId]);
+
   const selectedDaySlots = useMemo(() => {
     const selectedDay = dayjs(selectedDate).format("dddd");
     return CurrentSlots.find((slot) => slot.day === selectedDay);
   }, [selectedDate, CurrentSlots]);
+
+  const start = selectedDaySlots?.from;
+  const end = selectedDaySlots?.to;
+  const timeSlots = generateTimeSlots(start, end);
+  const [SelectedSlot, setSelectedSlot] = useState("");
+
+  const [anchorElSlots, setAnchorElSlots] = useState(null);
+
+  const handleClickSlots = (event) => {
+    setAnchorElSlots(event.currentTarget);
+  };
+
+  const handleCloseSlots = () => {
+    setAnchorElSlots(null);
+  };
+
+  const openSlots = Boolean(anchorElSlots);
+  const idSlots = openSlots ? "simple-popover" : undefined;
+
+  useEffect(() => {
+    if (selectedDate && DoctorId) {
+      dispatch(
+        fetchSlots({
+          doctorId: DoctorId,
+          slots: timeSlots,
+          date: selectedDate,
+          available: selectedDaySlots?.available,
+        })
+      );
+      console.log(SlotsState.data);
+    }
+  }, [selectedDate, DoctorId]);
+
+  useEffect(() => {
+    setSelectedSlot("");
+  }, [selectedDaySlots, selectedDate]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -163,20 +214,89 @@ const AddAppointment = () => {
                 />
               </div>
               {selectedDaySlots?.available ? (
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center mb-8">
                   <div className="text-[green] font-bold font-montserrat text-xl">
                     Available Time
                   </div>
-                  <div className="font-montserrat font-semibold text-xl text-custom-bg">
+                  <div className="font-montserrat font-semibold text-xl text-custom-bg my-4">
                     {dayjs(selectedDaySlots?.from, "HH:mm").format("h:mm A")} -{" "}
                     {dayjs(selectedDaySlots?.to, "HH:mm").format("h:mm A")}
                   </div>
-                  <input
-                    type="time"
-                    // value={day.to}
-                    // onChange={handleTimeChange(index, "to")}
-                    className="border p-1 rounded-lg w-[140px] font-montserrat font-bold"
-                  />
+                  {SlotsState.loading ? (
+                    <div>
+                      <AddingLightLoader />
+                    </div>
+                  ) : (
+                    <div
+                      onClick={handleClickSlots}
+                      className="min-w-[200px] cursor-pointer border-2 border-custom-bg flex flex-col items-center rounded-lg"
+                    >
+                      <div className="bg-custom-bg text-white text-center py-2 font-montserrat font-bold flex w-full justify-center items-center gap-x-2">
+                        Available Slots
+                        <FaCaretSquareDown className="text-xl" />
+                      </div>
+                      <div className="py-3 font-montserrat font-bold">
+                        {SelectedSlot ? SelectedSlot : "Select Slot"}
+                      </div>
+                    </div>
+                  )}
+                  <Popover
+                    id={idSlots}
+                    open={openSlots}
+                    anchorEl={anchorElSlots}
+                    onClose={handleCloseSlots}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "center",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "center",
+                    }}
+                    PaperProps={{
+                      sx: {
+                        borderRadius: "25px",
+                        backgroundColor: "white",
+                        overflowY: "auto",
+                      },
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        p: 2,
+                        borderColor: "#465462",
+                        backgroundColor: "#465462",
+                        width: "400px",
+                        borderRadius: "25px",
+                        overflowY: "auto",
+                        maxHeight: "60vh",
+                      }}
+                    >
+                      <div className="bg-[#465462] text-white font-[Quicksand] flex flex-col justify-center items-center rounded-[50px]">
+                        <div className="w-full flex flex-col justify-between gap-y-3 items-start">
+                          {SlotsState.data &&
+                            SlotsState.data.map((dt) => (
+                              <div
+                                key={dt}
+                                className="flex gap-x-3 items-center cursor-pointer"
+                                onClick={() => {
+                                  handleCloseSlots();
+                                  setSelectedSlot(dt);
+                                }}
+                              >
+                                <input
+                                  type="checkbox"
+                                  className="mr-1 appearance-none h-5 w-5 border border-gray-300 checked:bg-white rounded-full"
+                                  checked={SelectedSlot === dt}
+                                  readOnly
+                                />
+                                <span>{dt}</span>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    </Typography>
+                  </Popover>
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center">
@@ -277,6 +397,7 @@ const AddAppointment = () => {
                       } else {
                         try {
                           const response = await AddNewAppoitmentApi({
+                            time_slot: SelectedSlot,
                             name,
                             address,
                             mobile_no,
@@ -294,6 +415,10 @@ const AddAppointment = () => {
                             imageUrl:
                               "https://cdn-icons-png.freepik.com/512/1533/1533506.png",
                           });
+                          if (response.data.success) {
+                            SuccessToast(response.data?.data?.msg);
+                            navigate("/");
+                          }
                           console.log(response);
                         } catch (err) {
                           console.log(err);

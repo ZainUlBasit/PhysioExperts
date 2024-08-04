@@ -9,6 +9,8 @@ import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
 import { CarouselWrapper } from "./CarouselWrapper";
 import BlogCard from "../Cards/BlogCard";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBlogs } from "../../store/Slices/BlogSlice";
 
 const BlogCarousel = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -21,6 +23,14 @@ const BlogCarousel = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const dispatch = useDispatch();
+  const BlogState = useSelector((state) => state.BlogState);
+
+  useEffect(() => {
+    dispatch(fetchBlogs());
+  }, []);
+
   return (
     <CarouselWrapper className="gap-y-10 flex flex-col justify-between items-center w-full h-[600px]">
       <h1
@@ -34,7 +44,7 @@ const BlogCarousel = () => {
           dots={true}
           infinite={true}
           speed={500}
-          slidesToShow={3}
+          slidesToShow={BlogState.data.length < 3 ? BlogState.data.length : 3}
           slidesToScroll={1}
           autoplay={true}
           draggable={true}
@@ -65,9 +75,8 @@ const BlogCarousel = () => {
             },
           ]}
         >
-          {TargetMarketsData.map((dt, i) => (
-            <BlogCard key={i} Icon={dt.icon} title={dt.title} img={dt.img} />
-          ))}
+          {BlogState.data &&
+            BlogState.data.map((dt, i) => <BlogCard key={i} data={dt} />)}
         </Slider>
       </div>
     </CarouselWrapper>

@@ -2,7 +2,7 @@ import { Popover, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router";
-import { SendMessage } from "../../store/Slices/ChatBotSlice";
+import { RecieveMessage, SendMessage } from "../../store/Slices/ChatBotSlice";
 
 const VisitorLayout = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -127,6 +127,7 @@ const VisitorLayout = () => {
               className="text-aliceblue bg-custom-bg-hover hover:bg-aliceblue hover:text-custom-bg rounded-lg p-2 px-3 cursor-pointer transition-all ease-in-out duration-700 border-2 border-custom-bg-hover"
               onClick={() => {
                 dispatch(SendMessage(Msg));
+                dispatch(RecieveMessage(Msg));
                 setMsg("");
               }}
             >

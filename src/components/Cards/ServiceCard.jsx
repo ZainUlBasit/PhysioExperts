@@ -21,7 +21,7 @@ const ServiceCard = ({ dt }) => {
     >
       <div className="rounded-[50px] overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]">
         <img
-          src={dt.img}
+          src={dt.imageUrl}
           alt="nothing"
           className="object-cover w-[210px] h-[300px]"
         />

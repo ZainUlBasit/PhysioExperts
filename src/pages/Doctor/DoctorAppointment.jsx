@@ -8,6 +8,7 @@ import TableComp, {
 } from "../../components/Tables/TableComponent";
 import TableHeader from "../../components/Header/TableHeader";
 import PageLoader from "../../components/Loaders/PageLoader";
+import { useNavigate } from "react-router-dom";
 
 const DoctorAppointment = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const DoctorAppointment = () => {
   const [SelectedId, setSelectedId] = useState("");
   const [OpenEditModal, setOpenEditModal] = useState(false);
   const [OpenDeleteModal, setOpenDeleteModal] = useState(false);
+  const [OpenView, setOpenView] = useState(false);
   const [SearchText, setSearchText] = useState("");
   useEffect(() => {
     const payload =
@@ -31,6 +33,12 @@ const DoctorAppointment = () => {
           };
     dispatch(fetchAppointment(payload));
   }, []);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (OpenView) {
+      navigate("/appointment/prescription/" + SelectedId);
+    }
+  }, [OpenView]);
   return (
     <div>
       <DoctorNavbar />
@@ -52,6 +60,7 @@ const DoctorAppointment = () => {
             setOpenDeleteModal={setOpenDeleteModal}
             rows={AppointmentState.data || [{}]}
             columns={AppointmentColumns}
+            setView={setOpenView}
           />
         </TableWrapper>
       )}

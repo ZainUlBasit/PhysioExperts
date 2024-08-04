@@ -12,16 +12,23 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { AddAppoitmentPatientApi } from "../../Api_Requests/Api_Requests";
 import { ErrorToast, SuccessToast } from "../../utils/ShowToast";
+import { generateTimeSlots } from "../../utils/GenerateTimeSlots";
+import { FaCaretSquareDown } from "react-icons/fa";
+import { fetchSlots } from "../../store/Slices/SlotsSlice";
+import moment from "moment";
+import AddingLightLoader from "../../components/Loaders/AddingLightLoader";
 
 const PatientNewAppoinment = () => {
   const [DoctorId, setDoctorId] = useState("");
   const [CurrentSlots, setCurrentSlots] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElDoctor, setAnchorElDoctor] = useState(null);
+  const [anchorElSlots, setAnchorElSlots] = useState(null);
   const [ConsultType, setConsultType] = useState("");
   const [SelectedDoctorId, setSelectedDoctorId] = useState("");
   const [SelectedDoctorName, setSelectedDoctorName] = useState("");
-  const [selectedDate, setSelectedDate] = useState(dayjs("2022-04-17"));
+  const currentDate = moment(new Date()).format("yyyy-MM-DD");
+  const [selectedDate, setSelectedDate] = useState(dayjs(currentDate));
   const dispatch = useDispatch();
 
   const handleClick = (event) => {
@@ -45,6 +52,16 @@ const PatientNewAppoinment = () => {
 
   const openDoctor = Boolean(anchorElDoctor);
   const idDoctor = openDoctor ? "simple-popover" : undefined;
+  const handleClickSlots = (event) => {
+    setAnchorElSlots(event.currentTarget);
+  };
+
+  const handleCloseSlots = () => {
+    setAnchorElSlots(null);
+  };
+
+  const openSlots = Boolean(anchorElSlots);
+  const idSlots = openSlots ? "simple-popover" : undefined;
 
   const handleDateChange = (newValue) => {
     setSelectedDate(newValue);
@@ -54,9 +71,10 @@ const PatientNewAppoinment = () => {
     dispatch(fetchDoctors());
   }, [dispatch]);
 
-  const { DoctorState, AuthState } = useSelector((state) => ({
+  const { DoctorState, AuthState, SlotsState } = useSelector((state) => ({
     DoctorState: state.DoctorState,
     AuthState: state.AuthState,
+    SlotsState: state.SlotsState,
   }));
 
   useEffect(() => {
@@ -70,6 +88,25 @@ const PatientNewAppoinment = () => {
     const selectedDay = dayjs(selectedDate).format("dddd");
     return CurrentSlots.find((slot) => slot.day === selectedDay);
   }, [selectedDate, CurrentSlots]);
+
+  const start = selectedDaySlots?.from;
+  const end = selectedDaySlots?.to;
+  const timeSlots = generateTimeSlots(start, end);
+  const [SelectedSlot, setSelectedSlot] = useState("");
+
+  useEffect(() => {
+    if (selectedDate && SelectedDoctorId) {
+      dispatch(
+        fetchSlots({
+          doctorId: SelectedDoctorId,
+          slots: timeSlots,
+          date: selectedDate,
+          available: selectedDaySlots?.available,
+        })
+      );
+      console.log(SlotsState.data);
+    }
+  }, [selectedDate, SelectedDoctorId]);
 
   return (
     <div className="bg-aliceblue min-h-screen">
@@ -236,6 +273,82 @@ const PatientNewAppoinment = () => {
                   {dayjs(selectedDaySlots?.from, "HH:mm").format("h:mm A")} -{" "}
                   {dayjs(selectedDaySlots?.to, "HH:mm").format("h:mm A")}
                 </div>
+
+                {SlotsState.loading ? (
+                  <div>
+                    <AddingLightLoader />
+                  </div>
+                ) : (
+                  <div
+                    onClick={handleClickSlots}
+                    className="min-w-[200px] cursor-pointer border-2 border-custom-bg flex flex-col items-center rounded-lg"
+                  >
+                    <div className="bg-custom-bg text-white text-center py-2 font-montserrat font-bold flex w-full justify-center items-center gap-x-2">
+                      Available Slots
+                      <FaCaretSquareDown className="text-xl" />
+                    </div>
+                    <div className="py-3 font-montserrat font-bold">
+                      {SelectedSlot ? SelectedSlot : "Select Slot"}
+                    </div>
+                  </div>
+                )}
+                <Popover
+                  id={idSlots}
+                  open={openSlots}
+                  anchorEl={anchorElSlots}
+                  onClose={handleCloseSlots}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                  PaperProps={{
+                    sx: {
+                      borderRadius: "25px",
+                      backgroundColor: "white",
+                      overflowY: "auto",
+                    },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      p: 2,
+                      borderColor: "#465462",
+                      backgroundColor: "#465462",
+                      width: "400px",
+                      borderRadius: "25px",
+                      overflowY: "auto",
+                      maxHeight: "60vh",
+                    }}
+                  >
+                    <div className="bg-[#465462] text-white font-[Quicksand] flex flex-col justify-center items-center rounded-[50px]">
+                      <div className="w-full flex flex-col justify-between gap-y-3 items-start">
+                        {SlotsState.data &&
+                          SlotsState.data.map((dt) => (
+                            <div
+                              key={dt}
+                              className="flex gap-x-3 items-center cursor-pointer"
+                              onClick={() => {
+                                handleCloseSlots();
+                                setSelectedSlot(dt);
+                              }}
+                            >
+                              <input
+                                type="checkbox"
+                                className="mr-1 appearance-none h-5 w-5 border border-gray-300 checked:bg-white rounded-full"
+                                checked={SelectedSlot === dt}
+                                readOnly
+                              />
+                              <span>{dt}</span>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  </Typography>
+                </Popover>
               </div>
             ) : (
               SelectedDoctorId && (
@@ -254,6 +367,7 @@ const PatientNewAppoinment = () => {
                     !ConsultType ||
                     !SelectedDoctorId ||
                     !SelectedDoctorName ||
+                    !SelectedSlot ||
                     !selectedDate
                   ) {
                     ErrorToast("Required fields are undefined!");
@@ -272,11 +386,13 @@ const PatientNewAppoinment = () => {
                         patientId: AuthState.data.patientId._id,
                         patient_name: AuthState.data.patientId.name,
                         imageUrl: AuthState.data.patientId.imageUrl,
+                        time_slot: SelectedSlot,
                       });
                       if (response.data.success) {
                         SuccessToast(response.data?.data?.msg);
                         setSelectedDoctorId("");
                         setSelectedDoctorName("");
+                        setSelectedSlot("");
                       }
                     } catch (err) {
                       console.log(err);

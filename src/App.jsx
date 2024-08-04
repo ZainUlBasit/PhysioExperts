@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+  const navigate = useNavigate();
   const container = {
     hidden: { opacity: 0, scale: 0 },
     visible: {
@@ -62,7 +64,12 @@ function App() {
             dedicated to enhancing your well-being and restoring your optimal
             health.
           </div>
-          <div className="underline cursor-pointer font-montserrat font-semibold text-2xl text-white bg-[#465462] hover:bg-[#768A9E] py-3 px-5 rounded-lg transition-all ease-in-out duration-500 w-fit">
+          <div
+            className="underline cursor-pointer font-montserrat font-semibold text-2xl text-white bg-[#465462] hover:bg-[#768A9E] py-3 px-5 rounded-lg transition-all ease-in-out duration-500 w-fit"
+            onClick={() => {
+              navigate("/appointment/select-city");
+            }}
+          >
             Book a consultation
           </div>
         </motion.div>

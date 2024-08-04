@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ChatBotQuestions } from "../../utils/ChatBotQuestions";
 
 const ChatBotSlice = createSlice({
   name: "ChatBot",
@@ -15,7 +16,10 @@ const ChatBotSlice = createSlice({
       if (action.payload !== "")
         state.data = [{ type: 2, msg: action.payload }, ...state.data];
     },
-    RecieveMessage: (state, action) => {},
+    RecieveMessage: (state, action) => {
+      console.log(action.payload);
+      console.log(ChatBotQuestions);
+    },
   },
 });
 

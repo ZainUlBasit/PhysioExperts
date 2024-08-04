@@ -12,6 +12,8 @@ import BlogCard from "../Cards/BlogCard";
 import ServiceCard from "../Cards/ServiceCard";
 import { dateTimePickerTabsClasses } from "@mui/x-date-pickers";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchServices } from "../../store/Slices/ServiceSlice";
 
 const ServicesCarousel = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -40,6 +42,13 @@ const ServicesCarousel = () => {
     },
   };
 
+  const dispatch = useDispatch();
+  const ServiceState = useSelector((state) => state.ServiceState);
+
+  useEffect(() => {
+    dispatch(fetchServices());
+  }, []);
+
   return (
     <CarouselWrapper className="gap-y-10 flex flex-col justify-between items-center w-full h-[630px]">
       <h1
@@ -59,7 +68,9 @@ const ServicesCarousel = () => {
           dots={true}
           infinite={true}
           speed={500}
-          slidesToShow={3}
+          slidesToShow={
+            ServiceState.data.length < 3 ? ServiceState.data.length : 3
+          }
           slidesToScroll={1}
           autoplay={true}
           draggable={true}
@@ -90,18 +101,8 @@ const ServicesCarousel = () => {
             },
           ]}
         >
-          {[
-            { title: "Sports physiotherapy", img: "/ServicesSVG.jpg" },
-            { title: "Paediatric physiotherapy", img: "/ServicesSVG.jpg" },
-            { title: "Musculoskeletal physiotherapy", img: "/ServicesSVG.jpg" },
-            {
-              title: "Physical Therapy physiotherapy",
-              img: "/ServicesSVG.jpg",
-            },
-            { title: "Neurological physiotherapy", img: "/ServicesSVG.jpg" },
-          ].map((dt, i) => (
-            <ServiceCard dt={dt} />
-          ))}
+          {ServiceState.data &&
+            ServiceState.data.map((dt, i) => <ServiceCard dt={dt} />)}
         </Slider>
       </motion.div>
     </CarouselWrapper>

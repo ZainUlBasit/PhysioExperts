@@ -21,6 +21,11 @@ export const AppointmentColumns = [
     minWidth: 150,
   },
   {
+    id: "time_slot",
+    label: "Time Slot",
+    minWidth: 150,
+  },
+  {
     id: "date",
     label: "Date",
     minWidth: 100,

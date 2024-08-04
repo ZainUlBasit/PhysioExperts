@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "../utils/Config";
+import { BASE_URL, BASE_URL_LOCAL } from "../utils/Config";
 
 export const userToken = localStorage.getItem("userToken");
 export const api = axios.create({
@@ -49,11 +49,17 @@ export const SendMessageAPI = (payload) =>
 // Appointment Requests
 export const GetAppointmentByIdAPI = (payload) =>
   api.post("/appointment/get", payload);
+export const UpdatePrescriptionAPI = (payload) =>
+  api.patch("/appointment/update_prescription", payload);
 
 // Patient Api
 export const GetPatientApi = () => api.get("/patient");
 export const AddAppoitmentPatientApi = (payload) =>
   api.post("/patient/add-appointment", payload);
+
+export const GetAvailableSlotApi = (payload) =>
+  api.post("/appointment/available_slots", payload);
+
 export const UpdatePatientAPI = (id, payload) =>
   api.patch("/patient/" + id, payload);
 
