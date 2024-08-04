@@ -103,8 +103,8 @@ const PrescriptionForm = () => {
       } else {
         ErrorToast("Unable to Update Prescription");
       }
-    } catch (error) {
-      console.error("Error creating prescription:", error);
+    } catch (err) {
+      console.error("Error creating prescription:", err);
       ErrorToast(err.response?.data?.error?.msg || err?.message);
     }
   };
