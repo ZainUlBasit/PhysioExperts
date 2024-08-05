@@ -18,7 +18,11 @@ const ChatBotSlice = createSlice({
       const currentQuestion = ChatBotQuestions[state.currentQuestionIndex];
       if (currentQuestion) {
         state.data = [
-          { type: 1, msg: currentQuestion.question },
+          {
+            type: 1,
+            msg: currentQuestion.question,
+            options: currentQuestion.options,
+          },
           ...state.data,
         ];
         state.currentQuestionIndex++;

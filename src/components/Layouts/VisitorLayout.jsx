@@ -98,7 +98,7 @@ const VisitorLayout = () => {
           </div>
           <div className="h-[67%] overflow-y-auto bg-aliceblue px-2 flex flex-col-reverse items-end">
             {ChatBotState.data &&
-              ChatBotState.data.map(({ _id, type, msg }) => {
+              ChatBotState.data.map(({ _id, type, msg, options }) => {
                 return (
                   <div
                     key={_id}
@@ -129,8 +129,17 @@ const VisitorLayout = () => {
                             Book Now
                           </div>
                         </div>
-                      ) : (
+                      ) : type === 2 ? (
                         msg
+                      ) : (
+                        <div className="flex flex-col">
+                          {msg}
+
+                          {options &&
+                            options.map((opt, i) => {
+                              return <div>{`${i + 1} - ${opt}`}</div>;
+                            })}
+                        </div>
                       )}
                     </div>
                   </div>
