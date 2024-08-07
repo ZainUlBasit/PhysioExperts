@@ -18,6 +18,7 @@ import {
 } from "../../store/Slices/ExerciseSlice";
 import { UpdatePrescriptionAPI } from "../../Api_Requests/Api_Requests";
 import { ErrorToast, SuccessToast } from "../../utils/ShowToast";
+import { BsChevronDown } from "react-icons/bs";
 
 const PrescriptionForm = () => {
   const { id: AppointmentId } = useParams();
@@ -82,6 +83,18 @@ const PrescriptionForm = () => {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+  const [anchorElA, setAnchorElA] = useState(null);
+
+  const handleClickA = (event) => {
+    setAnchorElA(event.currentTarget);
+  };
+
+  const handleCloseA = () => {
+    setAnchorElA(null);
+  };
+
+  const openA = Boolean(anchorElA);
+  const idA = openA ? "simple-popover" : undefined;
 
   const [Loading, setLoading] = useState(false);
 
@@ -148,6 +161,8 @@ const PrescriptionForm = () => {
 
   //   handleClose();
   // };
+  const [SelectedCity, setSelectedCity] = useState("");
+  const [SelectedCat, setSelectedCat] = useState("");
 
   return (
     <div className="flex flex-col bg-aliceblue min-h-screen">
@@ -244,41 +259,113 @@ const PrescriptionForm = () => {
               maxHeight: "60vh",
             }}
           >
-            <div className="bg-[#465462] text-white font-[Quicksand] flex flex-col justify-center items-center rounded-[50px]">
+            <div className="bg-[#465462] font-[Quicksand] flex flex-col justify-center items-center rounded-[50px]">
               <div className="w-full flex flex-col justify-between gap-y-3 items-center">
-                {CategoryState.data &&
-                  CategoryState.data.map((cat) => {
-                    return (
-                      <div key={cat._id} className="flex flex-col items-center">
-                        {ExerciseState.data.filter((dt) => {
-                          return cat._id === dt.categoryId._id;
-                        }).length === 0 ? null : (
-                          <div className="py-4 font-montserrat text-xl font-bold">
-                            {cat.name}
-                          </div>
-                        )}
-                        <div className="flex flex-col items-center gap-y-2">
-                          {ExerciseState.data &&
-                            ExerciseState.data
-                              .filter((dt) => {
-                                return cat._id === dt.categoryId._id;
-                              })
-                              .map((dt) => (
-                                <div
-                                  key={dt._id}
-                                  className="flex gap-x-3 items-center cursor-pointer"
-                                  onClick={() => {
-                                    dispatch(addExercise(dt.sourceUrl));
-                                    handleClose();
-                                  }}
-                                >
-                                  <img src={dt.sourceUrl} alt={dt.name} />
-                                </div>
-                              ))}
+                {/* <select
+                  value={SelectedCity}
+                  onChange={(e) => setSelectedCity(e.target.value)}
+                  className="!text-black w-full px-2 py-2 rounded-full outline-none border-custom-bg-hover border-4"
+                >
+                  {CategoryState.data.map((dt) => (
+                    <option value={dt.name}>{dt.name}</option>
+                  ))}
+                </select> */}
+                <div
+                  className={`relative ${" w-[100%]"} font-[Quicksand]  h-[48px] bg-custom-bg`}
+                  onClick={handleClickA}
+                >
+                  <p className="absolute top-[-14px] left-3 w-fit bg-custom-bg text-white font-montserrat text-xl font-bold">
+                    Exercises
+                  </p>
+                  <div className="px-3 py-6 pr-10 border-2 border-[#fff] rounded-[7.94px] w-full outline-none cursor-pointer shadow-[#0e25802d_0px_2px_8px_0px] h-full flex items-center font-bold text-[1.2rem] text-white">
+                    {SelectedCat === ""
+                      ? "Select Category"
+                      : CategoryState.data.find((dt) => dt._id === SelectedCat)
+                          .name}
+                  </div>
+                  <BsChevronDown className="flex absolute right-3 top-[.85rem] text-2xl text-white cursor-pointer" />
+                </div>
+
+                <Popover
+                  id={idA}
+                  open={openA}
+                  anchorEl={anchorElA}
+                  onClose={handleCloseA}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                  PaperProps={{
+                    sx: {
+                      borderRadius: "25px",
+                      backgroundColor: "white",
+                      overflowY: "auto",
+                    },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      p: 2,
+                      borderColor: "#465462",
+                      backgroundColor: "#465462",
+                      width: "400px",
+                      borderRadius: "25px",
+                      overflowY: "auto",
+                      maxHeight: "60vh",
+                    }}
+                  >
+                    <div className="flex flex-col gap-y-2">
+                      {CategoryState.data &&
+                        CategoryState.data.map((dt) => {
+                          return (
+                            <div
+                              key={dt._id}
+                              className="flex gap-x-3 items-center cursor-pointer text-white"
+                              onClick={() => {
+                                handleCloseA();
+                                setSelectedCat(dt._id);
+                              }}
+                            >
+                              <input
+                                type="checkbox"
+                                className="mr-1 appearance-none h-5 w-5 border border-gray-300 checked:bg-white rounded-full"
+                                checked={SelectedCat === dt._id}
+                                readOnly
+                              />
+                              <span>{dt.name}</span>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </Typography>
+                </Popover>
+
+                <div className="flex flex-col items-center gap-y-2">
+                  {ExerciseState.data &&
+                    ExerciseState.data
+                      .filter((dt) => {
+                        return (
+                          SelectedCat === "" ||
+                          SelectedCat === dt.categoryId._id
+                        );
+                      })
+                      .map((dt) => (
+                        <div
+                          key={dt._id}
+                          className="flex gap-x-3 items-center cursor-pointer"
+                          onClick={() => {
+                            dispatch(addExercise(dt.sourceUrl));
+                            handleClose();
+                          }}
+                        >
+                          <img src={dt.sourceUrl} alt={dt.name} />
                         </div>
-                      </div>
-                    );
-                  })}
+                      ))}
+                </div>
               </div>
             </div>
           </Typography>

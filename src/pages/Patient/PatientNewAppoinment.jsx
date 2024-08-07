@@ -21,7 +21,6 @@ import AddingLightLoader from "../../components/Loaders/AddingLightLoader";
 const PatientNewAppoinment = () => {
   const [DoctorId, setDoctorId] = useState("");
   const [CurrentSlots, setCurrentSlots] = useState([]);
-  const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElDoctor, setAnchorElDoctor] = useState(null);
   const [anchorElSlots, setAnchorElSlots] = useState(null);
   const [ConsultType, setConsultType] = useState("");
@@ -30,6 +29,7 @@ const PatientNewAppoinment = () => {
   const currentDate = moment(new Date()).format("yyyy-MM-DD");
   const [selectedDate, setSelectedDate] = useState(dayjs(currentDate));
   const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

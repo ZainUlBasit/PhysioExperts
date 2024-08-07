@@ -26,7 +26,12 @@ import { fetchCategories } from "../../store/Slices/CategorySlice";
 import AddNewCategoryModal from "../../components/Modals/AddNewCategoryModal";
 import DeleteModal from "../../components/Modals/DeleteModal";
 import EditCategoryModal from "../../components/Modals/EditCategoryModal";
-import { DeleteCategoryApi } from "../../Api_Requests/Api_Requests";
+import {
+  DeleteBlogApi,
+  DeleteCategoryApi,
+  DeleteProductApi,
+  DeleteServiceApi,
+} from "../../Api_Requests/Api_Requests";
 import { ErrorToast, SuccessToast } from "../../utils/ShowToast";
 import Videos from "./Videos";
 import Exercises from "./Exercises";
@@ -52,37 +57,63 @@ const AdminProducts = () => {
   const [Loading, setLoading] = useState(false);
   const onSubmit = async (e) => {
     setLoading(true);
-    if (CurrentTab === "products") {
-    } else if (CurrentTab === "blogs") {
-    } else if (CurrentTab === "services") {
-    } else if (CurrentTab === "category") {
-      try {
-        const response = await DeleteCategoryApi(SelectedId);
+    try {
+      const apiMap = {
+        products: DeleteProductApi, // Replace with the correct API call if it exists
+        blogs: DeleteBlogApi,
+        services: DeleteServiceApi,
+        category: DeleteCategoryApi,
+      };
+
+      const successMessages = {
+        products: "Product Deleted successfully!",
+        blogs: "Blog Deleted successfully!",
+        services: "Service Deleted successfully!",
+        category: "Category Deleted successfully!",
+      };
+
+      const errorMessages = {
+        products: "Unable to delete Product",
+        blogs: "Unable to delete Blog",
+        services: "Unable to delete Service",
+        category: "Unable to delete Category",
+      };
+
+      const deleteApi = apiMap[CurrentTab];
+
+      if (deleteApi) {
+        const response = await deleteApi(SelectedId);
         if (response.data.success) {
-          SuccessToast("Category Deleted successfully!");
-          dispatch(fetchCategories());
+          SuccessToast(successMessages[CurrentTab]);
+          dispatch(fetchServices());
           setOpenDeleteModal(false);
         } else {
-          ErrorToast("Unable to delete category");
+          ErrorToast(errorMessages[CurrentTab]);
         }
-      } catch (err) {
-        console.log(err);
-        ErrorToast(err.response?.data?.error?.msg || err.message);
+      } else {
+        ErrorToast("No API found for the current tab");
       }
+    } catch (err) {
+      console.log(err);
+      ErrorToast(err.response?.data?.error?.msg || err.message);
     }
     setLoading(false);
   };
+
   useEffect(() => {
-    if (CurrentTab === "products") {
-      dispatch(fetchProducts());
-    } else if (CurrentTab === "blogs") {
-      dispatch(fetchBlogs());
-    } else if (CurrentTab === "services") {
-      dispatch(fetchServices());
-    } else if (CurrentTab === "category") {
-      dispatch(fetchCategories());
+    const fetchActions = {
+      products: fetchProducts,
+      blogs: fetchBlogs,
+      services: fetchServices,
+      category: fetchCategories,
+    };
+
+    const fetchAction = fetchActions[CurrentTab];
+    if (fetchAction) {
+      dispatch(fetchAction());
     }
-  }, [CurrentTab]);
+  }, [CurrentTab, dispatch]);
+
   return (
     <div>
       <AdminNavbar />

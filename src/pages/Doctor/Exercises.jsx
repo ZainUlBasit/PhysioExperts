@@ -41,7 +41,7 @@ const Exercises = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-start items-center px-3">
+      <div className="flex justify-center items-center px-3 flex-wrap gap-x-4 py-4 gap-y-4">
         {VideoState.loading ? (
           <div className="w-full flex justify-center items-center">
             <AddingLightLoader />

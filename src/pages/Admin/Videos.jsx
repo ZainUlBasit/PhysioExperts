@@ -6,6 +6,7 @@ import { fetchVideos } from "../../store/Slices/VideoSlice";
 import { DeleteExerciseApi } from "../../Api_Requests/Api_Requests";
 import { ErrorToast, SuccessToast } from "../../utils/ShowToast";
 import DeleteModal from "../../components/Modals/DeleteModal";
+import EditVideoModal from "../../components/Modals/EditVideoModal";
 
 const Videos = () => {
   const [OpenModal, setOpenModal] = useState(false);
@@ -13,6 +14,7 @@ const Videos = () => {
 
   const [Loading, setLoading] = useState(false);
   const [OpenDeleteModal, setOpenDeleteModal] = useState(false);
+  const [OpenUpdateModal, setOpenUpdateModal] = useState(false);
   const [SelectedId, setSelectedId] = useState("");
 
   const VideoState = useSelector((state) => state.VideoState);
@@ -48,7 +50,7 @@ const Videos = () => {
           }}
         />
       </div>
-      <div className="flex justify-start items-center px-3">
+      <div className="flex justify-center items-center px-3 flex-wrap gap-x-4 py-4 gap-y-4">
         {VideoState.data &&
           VideoState.data.map((vid) => {
             return (
@@ -66,7 +68,13 @@ const Videos = () => {
                   -{vid.categoryId.name}
                 </div>
                 <div className="w-full flex bg-aliceblue text-aliceblue rounded-xl overflow-hidden">
-                  <div className="w-[50%] text-center py-2 bg-[green] hover:bg-[#008000d9] cursor-pointer transition-all ease-in-out duration-500">
+                  <div
+                    className="w-[50%] text-center py-2 bg-[green] hover:bg-[#008000d9] cursor-pointer transition-all ease-in-out duration-500"
+                    onClick={() => {
+                      setOpenUpdateModal(true);
+                      setSelectedId(vid._id);
+                    }}
+                  >
                     Update
                   </div>
                   <div
@@ -85,6 +93,13 @@ const Videos = () => {
       </div>
       {OpenModal && (
         <AddNewVideoModal Open={OpenModal} setOpen={setOpenModal} />
+      )}
+      {OpenUpdateModal && (
+        <EditVideoModal
+          Open={OpenUpdateModal}
+          setOpen={setOpenUpdateModal}
+          videoData={VideoState.data.find((dt) => dt._id === SelectedId)}
+        />
       )}
       {OpenDeleteModal && (
         <DeleteModal

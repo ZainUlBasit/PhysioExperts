@@ -8,6 +8,10 @@ import { BiSolidImageAdd } from "react-icons/bi";
 import { RiUserForbidFill } from "react-icons/ri";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import CustomPopOver from "../../components/Inputs/CustomPopOver";
+import { ArrayOfCities } from "../../utils/Cities";
+import { Popover, Typography } from "@mui/material";
+import Search from "../../components/SearchBox/Search";
 
 const PatientRegistration = () => {
   const [email, setEmail] = useState("");
@@ -24,6 +28,21 @@ const PatientRegistration = () => {
     const file = e.target.files[0];
     setSelectedFile(file);
   };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  const [SearchCity, setSearchCity] = useState("");
 
   return (
     <div className="flex flex-col w-full h-screen justify-center items-center bg-white my-8">
@@ -97,14 +116,85 @@ const PatientRegistration = () => {
                 placeholder={"Enter Age"}
               />
 
-              <CustomInput
+              <CustomPopOver
+                label={"Select City"}
+                placeholder={"Select City"}
+                required={false}
                 Value={address}
-                setValue={setAddress}
-                Type={"text"}
-                label={"Address"}
-                required={true}
-                placeholder={"Enter Address"}
+                onClick={handleClick}
+                Width={"w-[297px]"}
               />
+
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+                PaperProps={{
+                  sx: {
+                    borderRadius: "25px",
+                    backgroundColor: "white",
+                    overflowY: "auto",
+                  },
+                }}
+              >
+                <Typography
+                  sx={{
+                    p: 2,
+                    borderColor: "#465462",
+                    backgroundColor: "#465462",
+                    width: "400px",
+                    borderRadius: "25px",
+                    overflowY: "auto",
+                    maxHeight: "30vh",
+                  }}
+                >
+                  <div className="bg-[#465462] text-white font-[Quicksand] flex flex-col justify-center items-center rounded-[50px]">
+                    <div className="w-full flex flex-col justify-between gap-y-3 items-start py-4">
+                      <Search
+                        Value={SearchCity}
+                        setValue={setSearchCity}
+                        Placeholder={"Search City..."}
+                      />
+                      {ArrayOfCities.filter((dt) => {
+                        const cityNameLowerCase = dt.name.toLowerCase();
+                        const searchCityNameLowerCase =
+                          SearchCity.toLowerCase();
+
+                        return (
+                          SearchCity === "" ||
+                          cityNameLowerCase.includes(searchCityNameLowerCase)
+                        );
+                      }).map((dt) => (
+                        <div
+                          key={dt.name}
+                          className="flex gap-x-3 items-center cursor-pointer"
+                          onClick={() => {
+                            handleClose();
+                            setAddress(dt.name);
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            className="mr-1 appearance-none h-5 w-5 border border-gray-300 checked:bg-white rounded-full"
+                            checked={address === dt.name}
+                            readOnly
+                          />
+                          <span>{dt.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Typography>
+              </Popover>
               <div className="flex gap-x-2 items-center justify-center font-montserrat">
                 <label className="font-montserrat font-medium text-lg">
                   Gender:

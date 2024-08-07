@@ -44,64 +44,74 @@ export default function AdminDashboardTable({ rows, columns }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow>
-            <TableCell
-              sx={{
-                fontWeight: "600",
-                fontSize: "1.6rem",
-                fontFamily: "Quicksand",
-                paddingTop: "30px",
-                paddingBottom: "30px",
-                border: "2px solid #768A9E",
-                borderTop: "0px solid #768A9E",
-              }}
-              align="center"
-            >
-              <div className="max767:text-[1.3rem]">100</div>
-            </TableCell>
-            <TableCell
-              sx={{
-                fontWeight: "600",
-                fontSize: "1.6rem",
-                fontFamily: "Quicksand",
-                paddingTop: "30px",
-                paddingBottom: "30px",
-                border: "2px solid #768A9E",
-                borderTop: "0px solid #768A9E",
-              }}
-              align="center"
-            >
-              <div className="max767:text-[1.3rem]">100</div>
-            </TableCell>
-            <TableCell
-              sx={{
-                fontWeight: "600",
-                fontSize: "1.6rem",
-                fontFamily: "Quicksand",
-                paddingTop: "30px",
-                paddingBottom: "30px",
-                border: "2px solid #768A9E",
-                borderTop: "0px solid #768A9E",
-              }}
-              align="center"
-            >
-              <div className="max767:text-[1.3rem]">100</div>
-            </TableCell>
-            <TableCell
-              sx={{
-                fontWeight: "600",
-                fontSize: "1.6rem",
-                fontFamily: "Quicksand",
-                paddingTop: "30px",
-                paddingBottom: "30px",
-                border: "2px solid #768A9E",
-                borderTop: "0px solid #768A9E",
-              }}
-              align="center"
-            >
-              <div className="max767:text-[1.3rem]">100</div>
-            </TableCell>
-          </TableRow>
+          {rows.map((dt) => {
+            return (
+              <TableRow>
+                <TableCell
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "1.6rem",
+                    fontFamily: "Quicksand",
+                    paddingTop: "30px",
+                    paddingBottom: "30px",
+                    border: "2px solid #768A9E",
+                    borderTop: "0px solid #768A9E",
+                  }}
+                  align="center"
+                >
+                  <div className="max767:text-[1.3rem]">{dt.no_of_doctors}</div>
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "1.6rem",
+                    fontFamily: "Quicksand",
+                    paddingTop: "30px",
+                    paddingBottom: "30px",
+                    border: "2px solid #768A9E",
+                    borderTop: "0px solid #768A9E",
+                  }}
+                  align="center"
+                >
+                  <div className="max767:text-[1.3rem]">
+                    {dt.no_of_patients}
+                  </div>
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "1.6rem",
+                    fontFamily: "Quicksand",
+                    paddingTop: "30px",
+                    paddingBottom: "30px",
+                    border: "2px solid #768A9E",
+                    borderTop: "0px solid #768A9E",
+                  }}
+                  align="center"
+                >
+                  <div className="max767:text-[1.3rem]">
+                    {dt.no_of_products}
+                  </div>
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "1.6rem",
+                    fontFamily: "Quicksand",
+                    paddingTop: "30px",
+                    paddingBottom: "30px",
+                    border: "2px solid #768A9E",
+                    borderTop: "0px solid #768A9E",
+                  }}
+                  align="center"
+                >
+                  <div className="max767:text-[1.3rem]">
+                    {dt.no_of_appointments}
+                  </div>
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>

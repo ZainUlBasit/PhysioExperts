@@ -3,7 +3,7 @@ import { BASE_URL, BASE_URL_LOCAL } from "../utils/Config";
 
 export const userToken = localStorage.getItem("userToken");
 export const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URLchan,
   withCredentials: true,
   headers: {
     "Content-type": "application/json",
@@ -13,7 +13,7 @@ export const api = axios.create({
 });
 
 export const apiForImage = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URLchan,
   withCredentials: true,
   headers: {
     "Content-Type": "multipart/form-data",
@@ -27,6 +27,9 @@ export const LoginUserApi = (payload) => api.post("/auth/login", payload);
 export const RegisterUserApi = (payload) => api.post("/auth/register", payload);
 export const VerifyAdminOtpApi = (payload) =>
   api.post("/auth/verify-otp", payload);
+
+// Stats Requests
+export const GetStats = () => api.get("/stats/get");
 
 //   Contacts Requests
 export const GetPatientContactsAPI = (id) => api.get("/contacts/patient/" + id);
@@ -69,6 +72,8 @@ export const AddNewProductApi = (payload) =>
 export const GetAllProductApi = () => api.get("/products/all");
 export const UpdateProductApi = (id, payload) =>
   api.patch("/products/" + id, payload);
+export const DeleteProductApi = (id) => api.delete("/products/" + id);
+
 // products orders API
 export const CreateProductOrderApi = (payload) =>
   api.post("/products-order/create", payload);
@@ -78,12 +83,15 @@ export const UpdateProductOrderApi = (id, payload) =>
 // blogs API
 export const AddNewBlogApi = (payload) => api.post("/blogs/create", payload);
 export const GetAllBlogApi = () => api.get("/blogs/all");
+export const DeleteBlogApi = (id) => api.delete("/blogs/" + id);
 export const UpdateBlogApi = (id, payload) =>
   api.patch("/blogs/" + id, payload);
+
 // services API
 export const AddNewServiceApi = (payload) =>
   api.post("/services/create", payload);
 export const GetAllServiceApi = () => api.get("/services/all");
+export const DeleteServiceApi = (id) => api.delete("/services/" + id);
 export const UpdateServiceApi = (id, payload) =>
   api.patch("/services/" + id, payload);
 
@@ -103,4 +111,7 @@ export const CreateExercieseApi = (payload) =>
   api.post("/exercise/create", payload);
 export const GetExercieseApi = () => api.get("/exercise/allexercises");
 export const GetVideosApi = () => api.get("/exercise/allvideos");
+export const GetExerciseByIdApi = (id) => api.get("/exercise/" + id);
 export const DeleteExerciseApi = (id) => api.delete("/exercise/" + id);
+export const UpdateExerciseApi = (id, payload) =>
+  api.patch("/category/" + id, payload);

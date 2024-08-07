@@ -1,7 +1,9 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const Plans = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-aliceblue w-screen h-screen justify-center items-center">
       <Navbar />
@@ -42,7 +44,12 @@ const Plans = () => {
                 <div className="">With Watermark</div>
               </div>
             </div>
-            <div className="bg-[#52a614] text-white font-bold text-2xl px-4 py-3 rounded-lg">
+            <div
+              className="bg-[#52a614] text-white font-bold text-2xl px-4 py-3 rounded-lg cursor-pointer"
+              onClick={() => {
+                navigate("/doctor/registration");
+              }}
+            >
               Register
             </div>
           </div>
@@ -76,7 +83,12 @@ const Plans = () => {
                 <div className="">No Watermark</div>
               </div>
             </div>
-            <div className="bg-[#52a614] text-white font-bold text-2xl px-4 py-3 rounded-lg">
+            <div
+              className="bg-[#52a614] text-white font-bold text-2xl px-4 py-3 rounded-lg cursor-pointer"
+              onClick={() => {
+                navigate("/doctor/registration");
+              }}
+            >
               Register
             </div>
           </div>
@@ -110,7 +122,12 @@ const Plans = () => {
                 <div className="">No Watermark</div>
               </div>
             </div>
-            <div className="bg-[#52a614] text-white font-bold text-2xl px-4 py-3 rounded-lg">
+            <div
+              className="bg-[#52a614] text-white font-bold text-2xl px-4 py-3 rounded-lg cursor-pointer"
+              onClick={() => {
+                navigate("/doctor/registration");
+              }}
+            >
               Register
             </div>
           </div>
