@@ -295,6 +295,7 @@ const DoctorRegistration = () => {
                   gender,
                   address,
                   role: 2,
+                  desc,
                 });
                 if (response.data.success) {
                   SuccessToast(
