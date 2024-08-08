@@ -14,6 +14,7 @@ import { dateTimePickerTabsClasses } from "@mui/x-date-pickers";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchServices } from "../../store/Slices/ServiceSlice";
+import PageLoader from "../Loaders/PageLoader";
 
 const ServicesCarousel = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -49,7 +50,11 @@ const ServicesCarousel = () => {
     dispatch(fetchServices());
   }, []);
 
-  return (
+  return ServiceState.loading ? (
+    <div className="w-full h-screen flex justify-center items-center">
+      <PageLoader />
+    </div>
+  ) : (
     <CarouselWrapper className="gap-y-10 flex flex-col justify-between items-center w-full h-[630px]">
       <h1
         className="text-[3rem] font-[600] font-montserrat text-custom-bg mb-10"

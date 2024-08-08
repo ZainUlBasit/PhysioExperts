@@ -18,8 +18,7 @@ const DoctorCard = ({ Detail }) => {
           PHYSIOTHERAPIST
         </div>
         <div className="px-5 font-[300px] text-center font-montserrat text-[1.1rem]">
-          As the senior doctor in East Forge, Dr. Patel specializes in
-          gynecologic surgery and obstetric care.
+          {Detail.desc}
         </div>
       </div>
       {/* <div className="py-6 flex justify-between items-center gap-x-3">

@@ -37,7 +37,6 @@ const DoctorProfile = () => {
     const tempUser = DoctorState.data.find(
       (dt) => dt._id === AuthState.data.doctorId._id
     );
-    console.log(tempUser);
     if (tempUser) {
       setName(tempUser.name);
       setEmail(tempUser.email);
@@ -45,6 +44,7 @@ const DoctorProfile = () => {
       setAddress(tempUser.address);
       setGender(tempUser.gender);
       setImageUrl(tempUser.imageUrl);
+      setDesc(tempUser.desc);
       setWeekDays(tempUser.clinic_timing);
     }
   }, [DoctorState.data]);
@@ -54,6 +54,7 @@ const DoctorProfile = () => {
   const [mobile_no, setMobile_no] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
+  const [desc, setDesc] = useState("");
   const [address, setAddress] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
@@ -92,6 +93,7 @@ const DoctorProfile = () => {
           gender,
           address,
           clinic_timing: weekDays,
+          desc,
         });
         if (response.data.success) {
           SuccessToast("Doctor details updated successfully!");
@@ -175,6 +177,14 @@ const DoctorProfile = () => {
                   label={"Email"}
                   required={true}
                   placeholder={"Enter Email"}
+                />
+                <CustomInput
+                  Value={desc}
+                  setValue={setDesc}
+                  Type={"text"}
+                  label={"Description"}
+                  required={true}
+                  placeholder={"Enter Description"}
                 />
                 <CustomInput
                   Value={mobile_no}

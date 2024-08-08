@@ -9,6 +9,7 @@ import { fetchDoctors } from "../../store/Slices/DoctorSlice";
 import { BsChevronDown, BsSearch } from "react-icons/bs";
 import Search from "../../components/SearchBox/Search";
 import { Popover, Typography } from "@mui/material";
+import PageLoader from "../../components/Loaders/PageLoader";
 
 const DoctorList = () => {
   const { city } = useParams();
@@ -141,19 +142,22 @@ const DoctorList = () => {
           Meet our Doctors
         </div>
         <div className="flex items-center justify-center gap-x-10 flex-wrap gap-y-[150px]">
-          {DoctorState.data &&
+          {DoctorState.loading ? (
+            <PageLoader />
+          ) : (
+            DoctorState.data &&
             DoctorState.data
               .filter((dt) => {
                 const cityNameLowerCase = dt.name.toLowerCase();
                 const SearchByNameLowerCase = SearchByName.toLowerCase();
-
                 return (
                   (SearchCityName === dt.address || SearchCityName === "") &&
                   (SearchByName === "" ||
                     cityNameLowerCase.includes(SearchByNameLowerCase))
                 );
               })
-              .map((dt) => <DoctorCard Detail={dt} />)}
+              .map((dt) => <DoctorCard Detail={dt} />)
+          )}
         </div>
       </div>
     </div>

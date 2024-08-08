@@ -11,6 +11,7 @@ import { CarouselWrapper } from "./CarouselWrapper";
 import BlogCard from "../Cards/BlogCard";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs } from "../../store/Slices/BlogSlice";
+import PageLoader from "../Loaders/PageLoader";
 
 const BlogCarousel = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -31,7 +32,11 @@ const BlogCarousel = () => {
     dispatch(fetchBlogs());
   }, []);
 
-  return (
+  return BlogState.loading ? (
+    <div className="w-full h-screen flex justify-center items-center">
+      <PageLoader />
+    </div>
+  ) : (
     <CarouselWrapper className="gap-y-10 flex flex-col justify-between items-center w-full h-[600px]">
       <h1
         className="text-[4rem] font-[600] font-montserrat text-custom-bg mb-10"

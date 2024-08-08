@@ -47,6 +47,7 @@ const DoctorRegistration = () => {
   const [name, setName] = useState("");
   const [mobile_no, setMobile_no] = useState("");
   const [password, setPassword] = useState("");
+  const [desc, setDesc] = useState("");
   const navigate = useNavigate();
   const [gender, setGender] = useState("");
   const [address, setAddress] = useState("");
@@ -139,8 +140,45 @@ const DoctorRegistration = () => {
                 required={true}
                 placeholder={"Enter Mobile No"}
               />
+              <div className="flex gap-x-2 items-center justify-center font-montserrat mt-1">
+                <label className="font-montserrat font-medium text-lg">
+                  Gender:
+                </label>
+                <div className="flex gap-x-4">
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="male"
+                      checked={gender === "male"}
+                      onChange={() => setGender("male")}
+                      className="mr-2"
+                    />
+                    Male
+                  </label>
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="female"
+                      checked={gender === "female"}
+                      onChange={() => setGender("female")}
+                      className="mr-2"
+                    />
+                    Female
+                  </label>
+                </div>
+              </div>
             </div>
             <div className="flex flex-col">
+              <CustomInput
+                Value={desc}
+                setValue={setDesc}
+                Type={"text"}
+                label={"Description"}
+                required={true}
+                placeholder={"Enter Description"}
+              />
               <CustomInput
                 Value={password}
                 setValue={setPassword}
@@ -190,7 +228,7 @@ const DoctorRegistration = () => {
                   }}
                 >
                   <div className="bg-[#465462] text-white font-[Quicksand] flex flex-col justify-center items-center rounded-[50px]">
-                    <div className="w-full flex flex-col justify-between gap-y-3 items-start py-4">
+                    <div className="w-full flex flex-col justify-between gap-y-3 items-start">
                       <Search
                         Value={SearchCity}
                         setValue={setSearchCity}
@@ -227,35 +265,6 @@ const DoctorRegistration = () => {
                   </div>
                 </Typography>
               </Popover>
-              <div className="flex gap-x-2 items-center justify-center font-montserrat">
-                <label className="font-montserrat font-medium text-lg">
-                  Gender:
-                </label>
-                <div className="flex gap-x-4">
-                  <label className="flex items-center cursor-pointer">
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="male"
-                      checked={gender === "male"}
-                      onChange={() => setGender("male")}
-                      className="mr-2"
-                    />
-                    Male
-                  </label>
-                  <label className="flex items-center cursor-pointer">
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="female"
-                      checked={gender === "female"}
-                      onChange={() => setGender("female")}
-                      className="mr-2"
-                    />
-                    Female
-                  </label>
-                </div>
-              </div>
             </div>
           </div>
         </div>

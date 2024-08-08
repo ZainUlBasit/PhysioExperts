@@ -10,6 +10,7 @@ import "./style.css";
 import { CarouselWrapper } from "./CarouselWrapper";
 import { fetchProducts } from "../../store/Slices/ProductSlice";
 import { useDispatch, useSelector } from "react-redux";
+import PageLoader from "../Loaders/PageLoader";
 
 const ServiceCarousel = () => {
   // Define custom arrow components with react-icons
@@ -41,7 +42,11 @@ const ServiceCarousel = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  return (
+  return ProductState.loading ? (
+    <div className="w-full h-screen flex justify-center items-center">
+      <PageLoader />
+    </div>
+  ) : (
     <CarouselWrapper className="gap-y-10 flex flex-col justify-between items-center w-full h-full">
       <h1
         className="text-[4rem] font-[600] font-montserrat text-custom-bg mb-10"
