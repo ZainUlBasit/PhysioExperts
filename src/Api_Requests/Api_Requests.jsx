@@ -3,7 +3,7 @@ import { BASE_URL, BASE_URL_LOCAL } from "../utils/Config";
 
 export const userToken = localStorage.getItem("userToken");
 export const api = axios.create({
-  baseURL: BASE_URLchan,
+  baseURL: BASE_URL,
   withCredentials: true,
   headers: {
     "Content-type": "application/json",
@@ -13,7 +13,7 @@ export const api = axios.create({
 });
 
 export const apiForImage = axios.create({
-  baseURL: BASE_URLchan,
+  baseURL: BASE_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "multipart/form-data",

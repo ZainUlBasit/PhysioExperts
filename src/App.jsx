@@ -75,7 +75,7 @@ function App() {
         </motion.div>
         <motion.div
           variants={RightBox}
-          className="rounded-full overflow-hidden border-[#768A9E] border-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
+          className="rounded-full overflow-hidden border-[#768A9E] border-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]  md:hidden lg:flex"
         >
           <img src="/HomeSVG.jpg" alt="logo" className="w-[500px]" />
         </motion.div>
