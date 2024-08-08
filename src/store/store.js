@@ -15,6 +15,8 @@ import ChatBotSlice from "./Slices/ChatBotSlice";
 import SlotsSlice from "./Slices/SlotsSlice";
 import ExerciseSlice from "./Slices/ExerciseSlice";
 import StatsSlice from "./Slices/StatsSlice";
+import VideoExerciesSlice from "./Slices/VideoExerciesSlice";
+import PatientExercisesSlice from "./Slices/PatientExercisesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -29,10 +31,12 @@ export const store = configureStore({
     ContactsState: ContactsSlice,
     AppointmentState: AppointmentSlice,
     CategoryState: CategorySlice,
-    VideoState: VideoSlice,
+    ExerciseState: VideoSlice,
     ChatBotState: ChatBotSlice,
     SlotsState: SlotsSlice,
     SelectedExerciseState: ExerciseSlice,
     StatsState: StatsSlice,
+    VideoState: VideoExerciesSlice, //video state
+    PatientExercisesState: PatientExercisesSlice,
   },
 });

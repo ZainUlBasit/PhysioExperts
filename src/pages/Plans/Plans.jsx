@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
+import BasicCard from "../../components/Cards/BasicCard";
 
 const Plans = () => {
   const navigate = useNavigate();
@@ -53,7 +54,6 @@ const Plans = () => {
               Register
             </div>
           </div>
-
           <div className="w-[400px] min-h-[450px] flex flex-col gap-y-6 justify-center items-center font-montserrat px-3 py-4 border-4 border-custom-bg bg-custom-bg text-white rounded-2xl">
             <div className="font-bold text-4xl">Premium</div>
             <div className="font-bold text-2xl">3000 per Month</div>
@@ -92,7 +92,6 @@ const Plans = () => {
               Register
             </div>
           </div>
-
           <div className="w-[400px] min-h-[450px] flex flex-col gap-y-6 justify-center items-center font-montserrat px-3 py-4 border-4 border-[#FFD700] bg-[#FFD700] text-custom-bg rounded-2xl">
             <div className="font-bold text-4xl">Standard</div>
             <div className="font-bold text-2xl">2500 per Month</div>
@@ -131,6 +130,7 @@ const Plans = () => {
               Register
             </div>
           </div>
+          {/* <BasicCard /> */}
         </div>
       </div>
     </div>

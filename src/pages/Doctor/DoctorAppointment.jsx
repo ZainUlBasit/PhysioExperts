@@ -57,7 +57,7 @@ const DoctorAppointment = () => {
           <TableComp
             setOpenEditModal={setOpenEditModal}
             setOpenDeleteModal={setOpenDeleteModal}
-            rows={AppointmentState.data || [{}]}
+            rows={AppointmentState.data.filter((dt) => dt.status === 1) || [{}]}
             columns={AppointmentColumns}
             setSelectedId={setSelectedId}
             setView={setOpenView}

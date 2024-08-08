@@ -1,13 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import PatientNavbar from "../../components/Navbar/PatientNavbar";
-import CustomInput from "../../components/Inputs/CustomInput";
 import CustomPopOver from "../../components/Inputs/CustomPopOver";
 import { Popover, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { StaticDatePicker } from "@mui/x-date-pickers";
 import { fetchDoctors } from "../../store/Slices/DoctorSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { IoSunnySharp } from "react-icons/io5";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { AddAppoitmentPatientApi } from "../../Api_Requests/Api_Requests";
@@ -30,6 +28,7 @@ const PatientNewAppoinment = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs(currentDate));
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [SelectedSlot, setSelectedSlot] = useState("");
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -52,6 +51,7 @@ const PatientNewAppoinment = () => {
 
   const openDoctor = Boolean(anchorElDoctor);
   const idDoctor = openDoctor ? "simple-popover" : undefined;
+
   const handleClickSlots = (event) => {
     setAnchorElSlots(event.currentTarget);
   };
@@ -89,24 +89,22 @@ const PatientNewAppoinment = () => {
     return CurrentSlots.find((slot) => slot.day === selectedDay);
   }, [selectedDate, CurrentSlots]);
 
-  const start = selectedDaySlots?.from;
-  const end = selectedDaySlots?.to;
-  const timeSlots = generateTimeSlots(start, end);
-  const [SelectedSlot, setSelectedSlot] = useState("");
-
   useEffect(() => {
-    if (selectedDate && SelectedDoctorId) {
+    if (selectedDate && SelectedDoctorId && selectedDaySlots) {
+      const start = selectedDaySlots?.from;
+      const end = selectedDaySlots?.to;
+      const timeSlots = generateTimeSlots(start, end);
+
       dispatch(
         fetchSlots({
           doctorId: SelectedDoctorId,
-          slots: timeSlots,
+          slots: timeSlots, // Include generated time slots here
           date: selectedDate,
           available: selectedDaySlots?.available,
         })
       );
-      console.log(SlotsState.data);
     }
-  }, [selectedDate, SelectedDoctorId]);
+  }, [selectedDate, SelectedDoctorId, selectedDaySlots, dispatch]);
 
   return (
     <div className="bg-aliceblue min-h-screen">
@@ -266,96 +264,80 @@ const PatientNewAppoinment = () => {
             )}
             {SelectedDoctorId && selectedDaySlots?.available ? (
               <div className="flex flex-col items-center justify-center">
-                <div className="text-[green] font-bold font-montserrat text-xl">
-                  Available Time
+                <div className="text-4xl font-[400] text-[green] font-montserrat text-center py-4">
+                  Available Slots
                 </div>
-                <div className="font-montserrat font-semibold text-xl text-custom-bg">
-                  {dayjs(selectedDaySlots?.from, "HH:mm").format("h:mm A")} -{" "}
-                  {dayjs(selectedDaySlots?.to, "HH:mm").format("h:mm A")}
-                </div>
-
-                {SlotsState.loading ? (
-                  <div>
-                    <AddingLightLoader />
-                  </div>
-                ) : (
-                  <div
+                <div className="flex flex-col justify-start gap-y-4 items-center w-[50%]">
+                  <CustomPopOver
+                    label={"Select Slot"}
+                    placeholder={"Select Slot"}
+                    required={false}
+                    Value={SelectedSlot}
                     onClick={handleClickSlots}
-                    className="min-w-[200px] cursor-pointer border-2 border-custom-bg flex flex-col items-center rounded-lg"
-                  >
-                    <div className="bg-custom-bg text-white text-center py-2 font-montserrat font-bold flex w-full justify-center items-center gap-x-2">
-                      Available Slots
-                      <FaCaretSquareDown className="text-xl" />
-                    </div>
-                    <div className="py-3 font-montserrat font-bold">
-                      {SelectedSlot ? SelectedSlot : "Select Slot"}
-                    </div>
-                  </div>
-                )}
-                <Popover
-                  id={idSlots}
-                  open={openSlots}
-                  anchorEl={anchorElSlots}
-                  onClose={handleCloseSlots}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "center",
-                  }}
-                  PaperProps={{
-                    sx: {
-                      borderRadius: "25px",
-                      backgroundColor: "white",
-                      overflowY: "auto",
-                    },
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      p: 2,
-                      borderColor: "#465462",
-                      backgroundColor: "#465462",
-                      width: "400px",
-                      borderRadius: "25px",
-                      overflowY: "auto",
-                      maxHeight: "60vh",
+                  />
+                  <Popover
+                    id={idSlots}
+                    open={openSlots}
+                    anchorEl={anchorElSlots}
+                    onClose={handleCloseSlots}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "center",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "center",
+                    }}
+                    PaperProps={{
+                      sx: {
+                        borderRadius: "25px",
+                        backgroundColor: "white",
+                        overflowY: "auto",
+                      },
                     }}
                   >
-                    <div className="bg-[#465462] text-white font-[Quicksand] flex flex-col justify-center items-center rounded-[50px]">
-                      <div className="w-full flex flex-col justify-between gap-y-3 items-start">
-                        {SlotsState.data &&
-                          SlotsState.data.map((dt) => (
-                            <div
-                              key={dt}
-                              className="flex gap-x-3 items-center cursor-pointer"
-                              onClick={() => {
-                                handleCloseSlots();
-                                setSelectedSlot(dt);
-                              }}
-                            >
-                              <input
-                                type="checkbox"
-                                className="mr-1 appearance-none h-5 w-5 border border-gray-300 checked:bg-white rounded-full"
-                                checked={SelectedSlot === dt}
-                                readOnly
-                              />
-                              <span>{dt}</span>
-                            </div>
-                          ))}
+                    <Typography
+                      sx={{
+                        p: 2,
+                        borderColor: "#465462",
+                        backgroundColor: "#465462",
+                        width: "400px",
+                        borderRadius: "25px",
+                        overflowY: "auto",
+                        maxHeight: "60vh",
+                      }}
+                    >
+                      <div className="bg-[#465462] text-white font-[Quicksand] flex flex-col justify-center items-center rounded-[50px]">
+                        <div className="w-full flex flex-col justify-between gap-y-3 items-start">
+                          {SlotsState.data &&
+                            SlotsState.data.map((slot, index) => (
+                              <div
+                                key={index}
+                                className="flex gap-x-3 items-center cursor-pointer"
+                                onClick={() => {
+                                  handleCloseSlots();
+                                  setSelectedSlot(slot);
+                                }}
+                              >
+                                <input
+                                  type="checkbox"
+                                  className="mr-1 appearance-none h-5 w-5 border border-gray-300 checked:bg-white rounded-full"
+                                  checked={SelectedSlot === slot}
+                                  readOnly
+                                />
+                                <span>{slot}</span>
+                              </div>
+                            ))}
+                        </div>
                       </div>
-                    </div>
-                  </Typography>
-                </Popover>
+                    </Typography>
+                  </Popover>
+                </div>
               </div>
             ) : (
               SelectedDoctorId && (
-                <div className="flex flex-col items-center justify-center">
-                  <div className="text-[red] font-bold font-montserrat text-xl">
-                    Not Available
-                  </div>
+                <div className="text-2xl text-center text-[red] pb-7">
+                  No slots available for the selected day.
                 </div>
               )
             )}

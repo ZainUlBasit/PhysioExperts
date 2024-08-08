@@ -25,6 +25,9 @@ export const apiForImage = axios.create({
 // Auth Requests
 export const LoginUserApi = (payload) => api.post("/auth/login", payload);
 export const RegisterUserApi = (payload) => api.post("/auth/register", payload);
+export const UpdateStatusApi = (payload) =>
+  api.patch("/appointment/status", payload);
+
 export const VerifyAdminOtpApi = (payload) =>
   api.post("/auth/verify-otp", payload);
 
@@ -59,6 +62,8 @@ export const UpdatePrescriptionAPI = (payload) =>
 export const GetPatientApi = () => api.get("/patient");
 export const AddAppoitmentPatientApi = (payload) =>
   api.post("/patient/add-appointment", payload);
+export const GetPatientExercisesApi = (id) =>
+  api.get("/patient/get-exercises/" + id);
 
 export const GetAvailableSlotApi = (payload) =>
   api.post("/appointment/available_slots", payload);

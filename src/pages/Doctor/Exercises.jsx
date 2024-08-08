@@ -15,7 +15,7 @@ const Exercises = () => {
   const [SelectedId, setSelectedId] = useState("");
 
   const dispatch = useDispatch();
-  const VideoState = useSelector((state) => state.VideoState);
+  const ExerciseState = useSelector((state) => state.ExerciseState);
 
   useEffect(() => {
     dispatch(fetchVideos(2));
@@ -42,13 +42,13 @@ const Exercises = () => {
   return (
     <div className="flex flex-col">
       <div className="flex justify-center items-center px-3 flex-wrap gap-x-4 py-4 gap-y-4">
-        {VideoState.loading ? (
+        {ExerciseState.loading ? (
           <div className="w-full flex justify-center items-center">
             <AddingLightLoader />
           </div>
         ) : (
-          VideoState.data &&
-          VideoState.data.map((vid) => {
+          ExerciseState.data &&
+          ExerciseState.data.map((vid) => {
             return (
               <div className="px-2 py-2 border-2 border-black flex items-center flex-col rounded-lg bg-custom-bg">
                 <img

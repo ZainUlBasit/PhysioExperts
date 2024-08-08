@@ -17,7 +17,7 @@ const Videos = () => {
   const [OpenUpdateModal, setOpenUpdateModal] = useState(false);
   const [SelectedId, setSelectedId] = useState("");
 
-  const VideoState = useSelector((state) => state.VideoState);
+  const ExerciseState = useSelector((state) => state.ExerciseState);
   useEffect(() => {
     dispatch(fetchVideos(1));
   }, []);
@@ -51,8 +51,8 @@ const Videos = () => {
         />
       </div>
       <div className="flex justify-center items-center px-3 flex-wrap gap-x-4 py-4 gap-y-4">
-        {VideoState.data &&
-          VideoState.data.map((vid) => {
+        {ExerciseState.data &&
+          ExerciseState.data.map((vid) => {
             return (
               <div className="px-2 py-2 border-2 border-black flex items-center flex-col rounded-lg bg-custom-bg">
                 <video
@@ -98,7 +98,7 @@ const Videos = () => {
         <EditVideoModal
           Open={OpenUpdateModal}
           setOpen={setOpenUpdateModal}
-          videoData={VideoState.data.find((dt) => dt._id === SelectedId)}
+          videoData={ExerciseState.data.find((dt) => dt._id === SelectedId)}
         />
       )}
       {OpenDeleteModal && (

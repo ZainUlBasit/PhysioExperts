@@ -5,39 +5,38 @@ import {
   GetVideosApi,
 } from "../../Api_Requests/Api_Requests";
 
-export const fetchVideos = createAsyncThunk("fetch-ex-vid", async (type) => {
-  try {
-    let response;
-    if (type === 1) {
+export const fetchExercises = createAsyncThunk(
+  "fetch-videos-exercises",
+  async () => {
+    try {
+      let response;
       response = await GetVideosApi();
-    } else if (type === 2) {
-      response = await GetExercieseApi();
+      console.log(response.data);
+      return response.data.data.payload || [];
+    } catch (error) {
+      console.log(error);
+      return [];
     }
-    console.log(response.data);
-    return response.data.data.payload || [];
-  } catch (error) {
-    console.log(error);
-    return [];
   }
-});
+);
 
 const VideoSlice = createSlice({
-  name: "videos",
+  name: "videos-exercises",
   initialState: {
     loading: false,
     data: [],
     isError: false,
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchVideos.pending, (state, action) => {
+    builder.addCase(fetchExercises.pending, (state, action) => {
       state.loading = true;
     });
-    builder.addCase(fetchVideos.fulfilled, (state, action) => {
+    builder.addCase(fetchExercises.fulfilled, (state, action) => {
       state.loading = false;
       state.data = action.payload;
       state.isError = false;
     });
-    builder.addCase(fetchVideos.rejected, (state, action) => {
+    builder.addCase(fetchExercises.rejected, (state, action) => {
       state.loading = false;
       state.isError = true;
     });
